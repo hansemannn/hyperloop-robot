@@ -20,6 +20,17 @@
     <use-autolayout>true</use-autolayout>
     <plist>
       <dict>
+
+        <!-- Required by iOS Bluetooth LE frameworks -->
+        <key>UIBackgroundModes</key>
+        <array>
+          <string>bluetooth-central</string>
+        </array>
+        <key>UISupportedExternalAccessoryProtocols</key>
+        <array>
+        	<string>com.orbotix.robotprotocol</string>
+        </array>
+
         <key>UIStatusBarStyle</key>
         <string>UIStatusBarStyleLightContent</string>
       </dict>
