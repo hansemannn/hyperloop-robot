@@ -1,0 +1,27 @@
+".logo": {
+	width: 240,
+	top: 60,
+	image: "images/logo.png"
+}
+
+"#content": {
+	layout: "vertical",
+	height: 100,
+	opacity: 0
+}
+
+"#loader": {
+	style: Titanium.UI.ActivityIndicatorStyle.BIG
+}
+
+".loaderText": {
+	color: "#fff",
+	top: 10,
+	textAlign: "center"	
+}
+
+"#alert": {
+	title: "No devices found",
+	message: "We could not find any devices. Please try to add your device manually!",
+	cancel: 0
+}

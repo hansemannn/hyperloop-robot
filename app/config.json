@@ -1,12 +1,20 @@
 {
-	"global": {},
-	"env:development": {},
-	"env:test": {},
-	"env:production": {},
-	"os:android": {},
-	"os:blackberry": {},
-	"os:ios": {},
-	"os:mobileweb": {},
-	"os:windows": {},
-	"dependencies": {}
+    "global": {
+    	"styles": {
+    		"tintColor": "#c91326"
+    	}
+    },
+    "env:development": {},
+    "env:test": {},
+    "env:production": {},
+    "os:android": {},
+    "os:blackberry": {},
+    "os:ios": {},
+    "os:mobileweb": {},
+    "os:windows": {},
+    "dependencies": {
+        "com.appcelerator.robot.devicesearch": "1.0",
+        "com.appcelerator.robot.devicelist": "1.0",
+        "com.appcelerator.robot.devicedetails": "1.0"
+    }
 }

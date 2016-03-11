@@ -1,0 +1,13 @@
+{
+	"id": "com.appcelerator.robot.devicelist",
+	"name": "com.appcelerator.robot.devicelist",
+	"description" : "",
+	"author": "",
+	"version": "1.0",
+	"copyright":"Copyright (c) 2016",
+	"license":"Public Domain",
+	"min-alloy-version": "1.0",
+	"min-titanium-version":"2.1",
+	"tags":"",
+	"platforms":"ios"
+}

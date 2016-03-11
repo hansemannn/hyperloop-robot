@@ -1,0 +1,13 @@
+<Alloy>
+	<NavigationWindow id="nav">
+		<Window title="Add Robot">
+			<LeftNavButton title="Cancel" onClick="cancel" />
+			<View class="form">
+				<Label class="intro" text="You can add a Sphero Robot manually by looking up it's IP-address and enter it in the below form." />
+				<TextField id="ip" onReturn="focusNameField" />
+				<TextField id="name" />
+				<Button id="submit" onClick="submit" />
+			</View>
+		</Window>
+	</NavigationWindow>
+</Alloy>

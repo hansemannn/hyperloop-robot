@@ -1,0 +1,43 @@
+".form": {
+	layout: "vertical"
+}
+
+".intro": {
+	top: 40,
+	bottom: 40,
+	textAlign: "center",
+	color: "#fff",
+	left: 30,
+	right: 30
+}
+
+"TextField": {
+	height: 40,
+	width: 260,
+	paddingLeft: 15,
+	backgroundColor: "#666",
+	borderRadius: 4,
+	bottom: 15,
+	font: {
+		fontSize: 15
+	}
+}
+
+"#ip": {
+	hintText: "IP address (required)",
+	returnKeyType: Ti.UI.RETURNKEY_NEXT
+}
+
+"#name": {
+	hintText: "Name (optional)",
+	returnKeyType: Ti.UI.RETURNKEY_DONE
+}
+
+"#submit": {
+	width: 260,
+	height: 40,
+	backgroundColor: Alloy.CFG.styles.tintColor,
+	tintColor: "#fff",
+	title: "Connect",
+	borderRadius: 4
+}
