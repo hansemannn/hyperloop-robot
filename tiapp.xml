@@ -1,59 +1,57 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<ti:app
-  xmlns:ti="http://ti.appcelerator.org">
-  <id>com.appcelerator.hyperloop.robot</id>
-  <name>HL-Robot</name>
-  <version>1.0.0</version>
-  <publisher>Appcelerator, Inc.</publisher>
-  <url>http://appcelerator.com</url>
-  <description/>
-  <copyright>2016 by Appcelerator, Inc.</copyright>
-  <icon>appicon.png</icon>
-  <fullscreen>false</fullscreen>
-  <navbar-hidden>false</navbar-hidden>
-  <analytics>true</analytics>
-  <guid>4e474456-b0c0-46c6-9ddd-3a47d55ae08e</guid>
-  <property name="ti.ui.defaultunit" type="string">dp</property>
-  <ios>
-    <run-on-main-thread>true</run-on-main-thread>
-    <use-jscore-framework>true</use-jscore-framework>
-    <use-autolayout>true</use-autolayout>
-    <plist>
-      <dict>
-
-        <!-- Required by iOS Bluetooth LE frameworks -->
-        <key>UIBackgroundModes</key>
-        <array>
-          <string>bluetooth-central</string>
-        </array>
-        <key>UISupportedExternalAccessoryProtocols</key>
-        <array>
-        	<string>com.orbotix.robotprotocol</string>
-        </array>
-
-        <key>UIStatusBarStyle</key>
-        <string>UIStatusBarStyleLightContent</string>
-      </dict>
-    </plist>
-  </ios>
-  <android xmlns:android="http://schemas.android.com/apk/res/android">
-      <manifest>
-          <application android:theme="@style/appcelerator"/>
-      </manifest>
-  </android>
-  <modules>
-      <module version="1.1.1">hyperloop</module>
-  </modules>
-  <deployment-targets>
-    <target device="ipad">true</target>
-    <target device="iphone">true</target>
-    <target device="android">false</target>
-    <target device="mobileweb">false</target>
-  </deployment-targets>
-  <sdk-version>5.2.0.GA</sdk-version>
-  <plugins>
-    <plugin version="1.0">ti.alloy</plugin>
-    <plugin>hyperloop</plugin>
-  </plugins>
-  <property name="appc-app-id" type="string">56dd6dd4a00473930438e57d</property>
+<ti:app xmlns:ti="http://ti.appcelerator.org">
+    <id>com.appcelerator.robot</id>
+    <name>Ti.Robot</name>
+    <version>1.0.0</version>
+    <publisher>Appcelerator, Inc.</publisher>
+    <url>http://appcelerator.com</url>
+    <description>not specified</description>
+    <copyright>2016 by Appcelerator, Inc.</copyright>
+    <icon>appicon.png</icon>
+    <fullscreen>false</fullscreen>
+    <navbar-hidden>false</navbar-hidden>
+    <analytics>true</analytics>
+    <guid>4e474456-b0c0-46c6-9ddd-3a47d55ae08e</guid>
+    <property name="ti.ui.defaultunit" type="string">dp</property>
+    <ios>
+        <run-on-main-thread>true</run-on-main-thread>
+        <use-jscore-framework>true</use-jscore-framework>
+        <use-autolayout>true</use-autolayout>
+        <plist>
+            <dict>
+                <!-- Required by iOS Bluetooth LE frameworks -->
+                <key>UIBackgroundModes</key>
+                <array>
+                    <string>bluetooth-central</string>
+                </array>
+                <key>UISupportedExternalAccessoryProtocols</key>
+                <array>
+                    <string>com.orbotix.robotprotocol</string>
+                </array>
+                <key>UIStatusBarStyle</key>
+                <string>UIStatusBarStyleLightContent</string>
+            </dict>
+        </plist>
+    </ios>
+    <android xmlns:android="http://schemas.android.com/apk/res/android">
+        <manifest>
+            <application android:theme="@style/appcelerator"/>
+        </manifest>
+    </android>
+    <modules>
+        <module platform="iphone" version="1.1.1">hyperloop</module>
+        <module platform="android" version="1.1.1">hyperloop</module>
+    </modules>
+    <deployment-targets>
+        <target device="ipad">true</target>
+        <target device="iphone">true</target>
+        <target device="android">false</target>
+        <target device="mobileweb">false</target>
+    </deployment-targets>
+    <sdk-version>5.2.1</sdk-version>
+    <plugins>
+        <plugin version="1.0">ti.alloy</plugin>
+        <plugin>hyperloop</plugin>
+    </plugins>
+    <property name="appc-app-id" type="string">56dd6dd4a00473930438e57d</property>
 </ti:app>
