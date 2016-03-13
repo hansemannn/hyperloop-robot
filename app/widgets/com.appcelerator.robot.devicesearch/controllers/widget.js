@@ -7,7 +7,7 @@ var searchTimeout,
  *  Constructor
  **/
 (function constructor() {
-	
+
 	RKConvenienceRobot = require("RobotKit/RKConvenienceRobot");
     RKRobotDiscoveryAgent = require("RobotKit/RKRobotDiscoveryAgent");
 
@@ -16,9 +16,7 @@ var searchTimeout,
 
 function searchDevices() {
 
-	if (searchTimeout) {
-		clearTimeout(searchTimeout);
-	}
+	clearSearchTimeout();
 	showLoader();
 
 	// Todo: Search here and call `openDeviceList()`
@@ -28,6 +26,12 @@ function searchDevices() {
 		hideLoader();
 		$.alert.show();
 	}, timeoutOffset);
+}
+
+function clearSearchTimeout() {
+    if (searchTimeout) {
+		clearTimeout(searchTimeout);
+	}
 }
 
 function handleDialogClick(e) {

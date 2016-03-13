@@ -1,5 +1,5 @@
 <Alloy>
-	<Window onOpen="searchDevices">
+	<Window onOpen="searchDevices" onClose="clearSearchTimeout">
 		<ImageView class="logo" />
 		<View id="content">
 			<ActivityIndicator id="loader" />

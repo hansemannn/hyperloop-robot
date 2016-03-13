@@ -17,7 +17,7 @@ function setUI() {
 	devices.fetch();
 
 	_.each(devices.models, function(device) {
-		var isConnected = new Boolean(device.get("connected")) === true;
+		var isConnected = device.get("connected") == true;
 
 		cells.push({
 			properties : {
@@ -68,4 +68,22 @@ function deleteDevice(e) {
 			Alloy.createWidget("com.appcelerator.robot.devicesearch").getView().open();
 		}, 250);
 	}
+}
+
+function openDetails(e) {
+    var model = devices.get(e.itemId);
+
+    if (!model.get("connected")) {
+        showNotConnectedWarning();
+        return;
+    }
+
+    $.nav.openWindow(Alloy.createWidget("com.appcelerator.robot.devicedetails", {
+        nav: $.nav,
+        id: e.itemId
+    }).getView());
+}
+
+function showNotConnectedWarning() {
+    $.alert.show();
 }

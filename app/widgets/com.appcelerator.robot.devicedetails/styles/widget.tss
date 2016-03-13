@@ -1,9 +1,49 @@
-"Label": {
-	color: '#000',
-	font: {
-		fontSize: 18,
-		fontWeight: 'bold'
-	},
+"#listView": {
+	backgroundColor: "transparent",
+	separatorStyle: Ti.UI.iPhone.ListViewSeparatorStyle.NONE,
+	footerTitle: ""
+}
+
+"ListItem": {
+	height: 130,
+	backgroundColor: "transparent",
+	selectionStyle: Ti.UI.iPhone.ListViewCellSelectionStyle.NONE
+}
+
+".featureOutterContainer": {
+	height: Ti.UI.SIZE
+}
+
+".featureContainer": {
 	height: Ti.UI.SIZE,
-	width: Ti.UI.SIZE
+	backgroundColor: "#fff",
+	borderRadius: 4,
+	top: 15,
+	left: 15,
+	right: 15
+}
+
+".featureImage": {
+	touchEnabled: false,
+	tintColor: Alloy.CFG.styles.tintColor,
+	left: 15,
+	width: 60,
+	height: 60
+}
+
+".featureTitle": {
+	font: {
+		fontSize: 25,
+		fontWeight: "bold"
+	},
+	left: 90,
+	height: Ti.UI.SIZE,
+	color: "#333"
+}
+
+".arrow": {
+	right: 20,
+	image: "images/icons/arrow-right.png",
+	width: 12,
+	height: 20
 }

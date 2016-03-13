@@ -3,7 +3,12 @@
 		<Window title="My devices">
 			<LeftNavButton systemButton="ADD" onClick="refreshDevices" />
 			<RightNavButton class="settings" onClick="openSettings" />
-			<ListView id="listView" defaultItemTemplate="RobotCell" onDelete="deleteDevice">
+			<AlertDialog id="alert" title="Not connected" message="This device is currently not connected. Please wait until it is successfully connected and try again.">
+				<ButtonNames>
+					<ButtonName>OK</ButtonName>
+				</ButtonNames>
+			</AlertDialog>
+			<ListView id="listView" defaultItemTemplate="RobotCell" onItemclick="openDetails" onDelete="deleteDevice">
 				<Templates>
 					<ItemTemplate name="RobotCell">
 						<View class="robotOutterContainer">

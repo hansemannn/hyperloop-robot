@@ -1,3 +1,24 @@
 <Alloy>
-	<Label>I'm the default widget</Label>
+	<Window id="window">
+		<ListView id="listView" onItemclick="openFeature" defaultItemTemplate="FeatureCell">
+			<Templates>
+				<ItemTemplate name="FeatureCell">
+					<View class="featureOutterContainer">
+						<View class="featureContainer">
+							<Button class="featureImage" bindId="image" />
+							<Label class="featureTitle" bindId="title" />
+							<View height="Ti.UI.SIZE">
+								<ImageView class="arrow" />
+							</View>
+						</View>
+					</View>
+				</ItemTemplate>
+			</Templates>
+			<ListSection>
+				<ListItem itemId="drive" image:image="images/icons/features/drive.png" title:text="Drive" />
+				<ListItem itemId="colorize" image:image="images/icons/features/colorize.png" title:text="Colorize" />
+				<ListItem itemId="routes" image:image="images/icons/features/routes.png" title:text="Routes" />
+			</ListSection>
+		</ListView>
+	</Window>
 </Alloy>
