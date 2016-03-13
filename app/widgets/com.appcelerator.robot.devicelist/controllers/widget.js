@@ -25,7 +25,7 @@ function setUI() {
 				backgroundColor : "transparent",
 				selectionStyle : Ti.UI.iPhone.ListViewCellSelectionStyle.NONE,
 				canEdit : true,
-				height : 150
+				height : 140
 			},
 			title : {
 				text : device.get("title")

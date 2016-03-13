@@ -28,6 +28,7 @@
 	},
 	top: 20,
 	left: 20,
+	bottom: 4,
 	height: Ti.UI.SIZE,
 	color: "#333"
 }
@@ -55,7 +56,8 @@
 ".robotConnectionStatusTitle": {
 	left: 5,
 	height: Ti.UI.SIZE,
-	color: "#999"
+	color: "#999",
+	top: 3
 }
 
 ".arrow": {
@@ -63,4 +65,10 @@
 	image: "images/icons/arrow-right.png",
 	width: 12,
 	height: 20
+}
+
+"#footer": {
+	textAlign: "center",
+	color: "#ccc",
+	top: 20
 }

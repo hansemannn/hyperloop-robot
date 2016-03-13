@@ -5,6 +5,32 @@
 	barColor: "#000",
 	navTintColor: Alloy.CFG.styles.tintColor,
 	titleAttributes: {
-		color: "#fff"
+		color: "#fff",
+		font: {
+			fontFamily: "PlexesMediumPro",
+			fontSize: 20
+		}
 	}
+}
+
+"Label": {
+	font: {
+		fontFamily: "PlexesMediumPro",
+		fontSize: 16
+	}
+}
+
+"Button": {
+	font: {
+		fontFamily: "PlexesMediumPro",
+		fontSize: 16
+	}
+}
+
+"TextField": {
+	font: {
+		fontFamily: "PlexesMediumPro",
+		fontSize: 16
+	},
+	tintColor: Alloy.CFG.styles.tintColor
 }

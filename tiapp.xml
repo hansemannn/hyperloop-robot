@@ -28,8 +28,13 @@
                 <array>
                     <string>com.orbotix.robotprotocol</string>
                 </array>
+                
                 <key>UIStatusBarStyle</key>
                 <string>UIStatusBarStyleLightContent</string>
+                <key>UIAppFonts</key>
+                <array>
+                    <string>/assets/fonts/plexesmediumpro.ttf</string>
+                </array>
             </dict>
         </plist>
     </ios>

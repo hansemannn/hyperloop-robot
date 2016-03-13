@@ -1,7 +1,7 @@
 <Alloy>
 	<NavigationWindow id="nav">
 		<Window title="My devices">
-			<LeftNavButton systemButton="REFRESH" onClick="refreshDevices" />
+			<LeftNavButton systemButton="ADD" onClick="refreshDevices" />
 			<RightNavButton class="settings" onClick="openSettings" />
 			<ListView id="listView" defaultItemTemplate="RobotCell" onDelete="deleteDevice">
 				<Templates>
