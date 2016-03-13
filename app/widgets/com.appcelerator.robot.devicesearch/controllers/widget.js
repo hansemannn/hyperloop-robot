@@ -1,10 +1,16 @@
 var searchTimeout,
-    timeoutOffset;
+    timeoutOffset,
+    RKConvenienceRobot,
+    RKRobotDiscoveryAgent;
 
 /**
  *  Constructor
  **/
 (function constructor() {
+	
+	RKConvenienceRobot = require("RobotKit/RKConvenienceRobot");
+    RKRobotDiscoveryAgent = require("RobotKit/RKRobotDiscoveryAgent");
+
 	timeoutOffset = 5000;
 })();
 
@@ -14,6 +20,9 @@ function searchDevices() {
 		clearTimeout(searchTimeout);
 	}
 	showLoader();
+
+	// Todo: Search here and call `openDeviceList()`
+	// Ti.API.warn("isDiscovering: " + RKRobotDiscoveryAgent.sharedAgent().isDiscovering());
 
 	searchTimeout = setTimeout(function() {
 		hideLoader();
@@ -53,14 +62,19 @@ function hideLoader() {
 
 function openAddManuallyView() {
 	var manuallyView = Widget.createController("manualSearch", {
-		success: function() {
+		success : function() {
 			// Device found
-			// TODO: Open com.appcelerator.robot.devicelist
+			openDeviceList();
 		},
-		cancel: function() {
+		cancel : function() {
 			// Search cancelled
 			$.alert.show();
 		}
 	});
 	manuallyView.open();
+}
+
+function openDeviceList() {
+	var deviceList = Alloy.createWidget("com.appcelerator.robot.devicelist");
+	deviceList.open();
 }

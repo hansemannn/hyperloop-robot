@@ -1,0 +1,1 @@
+Alloy.Collections.devices = Alloy.createCollection("device");

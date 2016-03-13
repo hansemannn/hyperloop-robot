@@ -1,3 +1,8 @@
 <Alloy>
-	<Label>I'm the default widget</Label>
+	<NavigationWindow>
+		<Window title="My devices">
+			<LeftNavButton systemButton="REFRESH" onClick="refreshDevices" />
+			<RightNavButton class="settings" onClick="addDevices" />
+		</Window>
+	</NavigationWindow>
 </Alloy>
