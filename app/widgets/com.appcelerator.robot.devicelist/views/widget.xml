@@ -1,8 +1,30 @@
 <Alloy>
-	<NavigationWindow>
+	<NavigationWindow id="nav">
 		<Window title="My devices">
 			<LeftNavButton systemButton="REFRESH" onClick="refreshDevices" />
-			<RightNavButton class="settings" onClick="addDevices" />
+			<RightNavButton class="settings" onClick="openSettings" />
+			<ListView id="listView" defaultItemTemplate="RobotCell" onDelete="deleteDevice">
+				<Templates>
+					<ItemTemplate name="RobotCell">
+						<View class="robotOutterContainer">
+							<View class="robotContainer">
+								<View layout="vertical">
+									<Label class="robotTitle" bindId="title" />
+									<Label class="robotSubtitle" bindId="subtitle" />
+									<View class="robotConnectionStatus">
+										<Button class="robotConnectionStatusIcon" bindId="statusBadge" />
+										<Label class="robotConnectionStatusTitle" bindId="statusLabel" />
+									</View>
+								</View>
+								<View height="Ti.UI.SIZE">
+									<ImageView class="arrow" />
+								</View>
+							</View>
+						</View>
+					</ItemTemplate>
+				</Templates>
+				<ListSection id="listSection" />
+			</ListView>
 		</Window>
 	</NavigationWindow>
 </Alloy>

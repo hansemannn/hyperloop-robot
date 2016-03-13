@@ -18,6 +18,8 @@
 	backgroundColor: "#666",
 	borderRadius: 4,
 	bottom: 15,
+	color: "#fff",
+	autocorrect: false,
 	font: {
 		fontSize: 15
 	}

@@ -76,5 +76,5 @@ function openAddManuallyView() {
 
 function openDeviceList() {
 	var deviceList = Alloy.createWidget("com.appcelerator.robot.devicelist");
-	deviceList.open();
+	deviceList.getView().open();
 }

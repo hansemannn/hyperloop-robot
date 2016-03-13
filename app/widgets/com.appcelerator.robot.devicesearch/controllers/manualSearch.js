@@ -1,5 +1,5 @@
 var onCancel,
-	onSuccess;
+    onSuccess;
 
 /**
  *  Constructor
@@ -23,6 +23,14 @@ function close() {
 }
 
 function submit() {
+
+	var model = Alloy.createModel("device", {
+		title : $.name.getValue(),
+		identifier : require("utils").slugify($.name.getValue()),
+		created_at : require("alloy/moment")().unix()
+	});
+	model.save();
+
 	close();
 	onSuccess && onSuccess();
 }

@@ -6,13 +6,15 @@ exports.definition = {
 		"columns" : {
 			"id" : "INTEGER PRIMARY KEY AUTOINCREMENT",
 			"title" : "TEXT",
-			"identifier": "TEXT",
+			"identifier" : "TEXT",
 			"created_at" : "INTEGER",
+			"connected" : "INTEGER"
 		},
 		"defaults" : {
 			"title" : "",
 			"identifier" : "",
 			"created_at" : 0,
+			"connected" : 0
 		},
 		"adapter" : {
 			"type" : "sql",
@@ -21,7 +23,7 @@ exports.definition = {
 		}
 	},
 
-	extendModel : function(Model) { 
+	extendModel : function(Model) {
 		Model.prototype.toURL = function() {
 			var url = "";
 			var proximity = JSON.parse(this.get("proximity"));
