@@ -14,7 +14,7 @@ module.exports = {
 				 * included here to further customize the xcode build
 				 */
 				flags: {
-					OTHER_LDFLAGS: '$(inherited) -ObjC -lc++'
+				//	OTHER_LDFLAGS: '$(inherited) -ObjC -lc++'
 				},
 				/**
 				 * this sample doesn't use StoreKit but this demonstrates

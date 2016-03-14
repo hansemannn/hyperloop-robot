@@ -9,3 +9,5 @@ tmp
 .settings
 Thumbs.db
 app/assets/fonts/plexesmediumpro.ttf
+Pods
+Podfile.lock
