@@ -28,7 +28,8 @@ function mockDevice() {
 		var model = Alloy.createModel("device", {
 			title : "Sphero BB-8",
 			identifier : "bb-8",
-			created_at : now.unix()
+			created_at : now.unix(),
+			connected: 1
 		});
 		model.save();
 	}

@@ -1,4 +1,5 @@
 var device,
+	id,
     nav;
 
 /**
@@ -6,6 +7,7 @@ var device,
  **/
 (function constructor(args) {
     nav = args.nav;
+    id = args.id;
 	devices = Alloy.Collections.instance("device");
     devices.fetch({
     	success: setUI
@@ -13,7 +15,7 @@ var device,
 })(arguments[0] || {});
 
 function setUI() {	
-    device = devices.get(args.id);
+    device = devices.get(id);
     $.window.setTitle(device.get("title"));
 }
 

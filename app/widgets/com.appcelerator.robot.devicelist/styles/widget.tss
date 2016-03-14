@@ -49,7 +49,7 @@
 ".robotConnectionStatusIcon": {
 	width: 20,
 	height: 20,
-	enabled: false,
+	touchEnabled: false,
 	left: 0
 }
 

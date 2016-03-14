@@ -1,0 +1,7 @@
+"#listView": {
+	style: Ti.UI.iPhone.ListViewStyle.GROUPED
+}
+
+"ListItem": {
+	accessoryType: Ti.UI.LIST_ACCESSORY_TYPE_DISCLOSURE
+}

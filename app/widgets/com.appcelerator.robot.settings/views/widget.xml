@@ -1,0 +1,18 @@
+<Alloy>
+	<NavigationWindow id="nav">
+		<Window title="Settings">
+			<RightNavButton title="Close" onClick="close" />
+			<ListView id="listView">
+				<ListSection headerTitle="General">
+					<ListItem title="FAQ" itemId="faq" />
+					<ListItem title="License" itemId="license" />
+					<ListItem title="Privacy" itemId="privacy" />
+				</ListSection>
+				<ListSection headerTitle="Control Center">
+					<ListItem title="Environment" itemId="env" />
+					<ListItem title="Reset all devices" itemId="reset" color="red" />
+				</ListSection>
+			</ListView>
+		</Window>
+	</NavigationWindow>
+</Alloy>

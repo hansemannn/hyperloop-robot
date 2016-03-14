@@ -1,8 +1,8 @@
 {
     "global": {
-    	"styles": {
-    		"tintColor": "#c91326"
-    	}
+        "styles": {
+            "tintColor": "#c91326"
+        }
     },
     "env:development": {},
     "env:test": {},
@@ -15,6 +15,7 @@
     "dependencies": {
         "com.appcelerator.robot.devicesearch": "1.0",
         "com.appcelerator.robot.devicelist": "1.0",
-        "com.appcelerator.robot.devicedetails": "1.0"
+        "com.appcelerator.robot.devicedetails": "1.0",
+        "com.appcelerator.robot.settings": "1.0"
     }
 }

@@ -15,7 +15,7 @@ function setUI() {
 
 	function configureCells() {
 		var cells = [];
-	
+
 		_.each(devices.models, function(device) {
 			var isConnected = device.get("connected") == true;
 
@@ -34,8 +34,8 @@ function setUI() {
 					text : "Added " + moment(device.get("created_at") * 1000).format("YYYY/MM/DD")
 				},
 				statusBadge : {
-					tintColor : isConnected ? "green" : "gray",
-					image : "/images/icons/disconnected.png"
+					tintColor : isConnected ? "#3dcb3d" : "#dbdbdb",
+					image : "/images/icons/" + ( isConnected ? "connected" : "disconnected") + ".png"
 				},
 				statusLabel : {
 					text : isConnected ? "Connected" : "Not connected"
@@ -60,7 +60,9 @@ function refreshDevices() {
 }
 
 function openSettings() {
-	// TODO: Open settings widget com.appcelerator.robot.settings
+	Alloy.createWidget("com.appcelerator.robot.settings").getView().open({
+		modal : true
+	});
 }
 
 function deleteDevice(e) {
