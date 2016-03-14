@@ -1,10 +1,15 @@
 var onCancel,
-    onSuccess;
+    onSuccess,
+    utils,
+    moment;
 
 /**
  *  Constructor
  **/
 (function constructor(args) {
+	utils = require("utils");
+	moment = require("alloy/moment");
+	
 	onCancel = args.cancel;
 	onSuccess = args.success;
 })(arguments[0] || {});
@@ -23,11 +28,10 @@ function close() {
 }
 
 function submit() {
-
 	var model = Alloy.createModel("device", {
 		title : $.name.getValue(),
-		identifier : require("utils").slugify($.name.getValue()),
-		created_at : require("alloy/moment")().unix()
+		identifier : utils.slugify($.name.getValue()),
+		created_at : moment().unix()
 	});
 	model.save();
 

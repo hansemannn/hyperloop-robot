@@ -1,5 +1,6 @@
 <Alloy>
-	<Window onOpen="searchDevices" onClose="clearSearchTimeout">
+	<Window onOpen="searchDevices" onClose="clearSearchTimeout" id="window" title="Search devices">
+		<LeftNavButton title="Cancel" onClick="close" />
 		<ImageView class="logo" />
 		<View id="content">
 			<ActivityIndicator id="loader" />

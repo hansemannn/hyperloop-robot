@@ -1,5 +1,9 @@
 var searchTimeout,
     timeoutOffset,
+    cb,
+    nav,
+    SEARCH_STATE,
+    currentSearchState,
     RKConvenienceRobot,
     RKRobotDiscoveryAgent;
 
@@ -11,6 +15,13 @@ var searchTimeout,
 	RKConvenienceRobot = require("RobotKit/RKConvenienceRobot");
     RKRobotDiscoveryAgent = require("RobotKit/RKRobotDiscoveryAgent");
 
+    SEARCH_STATE = {
+        DEFAULT: 0,
+        MODAL: 1
+    };
+
+    currentSearchState = SEARCH_STATE.DEFAULT;
+
 	timeoutOffset = 5000;
 })();
 
@@ -19,7 +30,7 @@ function searchDevices() {
 	clearSearchTimeout();
 	showLoader();
 
-	// Todo: Search here and call `openDeviceList()`
+	// Todo: Search here and call `openDeviceList()` or `invokeCallback`
 	// Ti.API.warn("isDiscovering: " + RKRobotDiscoveryAgent.sharedAgent().isDiscovering());
 
 	searchTimeout = setTimeout(function() {
@@ -68,7 +79,11 @@ function openAddManuallyView() {
 	var manuallyView = Widget.createController("manualSearch", {
 		success : function() {
 			// Device found
-			openDeviceList();
+            if (currentSearchState == SEARCH_STATE.MODAL) {
+                invokeCallbasck();
+            } else {
+                openDeviceList();
+            }
 		},
 		cancel : function() {
 			// Search cancelled
@@ -82,3 +97,29 @@ function openDeviceList() {
 	var deviceList = Alloy.createWidget("com.appcelerator.robot.devicelist");
 	deviceList.getView().open();
 }
+
+function close() {
+    nav && nav.close();
+}
+
+function invokeCallbasck() {
+    cb && cb();
+    close();
+}
+
+function openNavWindow() {
+    nav = Ti.UI.iOS.createNavigationWindow({
+        window: $.window
+    });
+
+    nav.open({
+        modal: true
+    });
+}
+
+exports.open = function(args) {
+    currentSearchState = SEARCH_STATE.MODAL;
+    cb = args.onFound;
+
+    openNavWindow();
+};

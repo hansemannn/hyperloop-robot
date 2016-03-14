@@ -5,15 +5,20 @@ var devices;
  **/
 (function constructor() {
 	devices = Alloy.Collections.instance("device");
+	devices.fetch({
+		success: bootApplication
+	});
+})();
 
+function bootApplication() {
 	mockDevice();
 
 	if (hasDevices()) {
 		Alloy.createWidget("com.appcelerator.robot.devicelist").getView().open();
 	} else {
 		Alloy.createWidget("com.appcelerator.robot.devicesearch").getView().open();
-	}
-})();
+	}	
+}
 
 function mockDevice() {
 	if (Ti.App.getDeployType() == "development" && !hasDevices()) {
@@ -30,6 +35,5 @@ function mockDevice() {
 }
 
 function hasDevices() {
-	devices.fetch();
 	return devices.models && devices.models.length > 0;
 }
