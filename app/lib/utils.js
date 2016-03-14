@@ -20,3 +20,7 @@ exports.slugify = function(str) {
 
 	return str;
 }; 
+
+exports.DEGREES_TO_RADIANS = function(angle) {
+	return (Number(angle) / 180.0 * Math.PI);
+};

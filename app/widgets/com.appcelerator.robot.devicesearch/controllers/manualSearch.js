@@ -31,7 +31,8 @@ function submit() {
 	var model = Alloy.createModel("device", {
 		title : $.name.getValue(),
 		identifier : utils.slugify($.name.getValue()),
-		created_at : moment().unix()
+		created_at : moment().unix(),
+		connected: true
 	});
 	model.save();
 

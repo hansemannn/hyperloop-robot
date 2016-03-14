@@ -1,0 +1,28 @@
+
+"#container": {
+    width: 300,
+    height: 300,
+//    backgroundColor: "red"
+}
+
+".arrow": {
+    width: 40,
+    height: 40,
+//    backgroundColor: "green"
+}
+
+"#arrowTop": {
+    top: 20
+}
+
+"#arrowRight": {
+    right: 20
+}
+
+"#arrowBottom": {
+    bottom: 20
+}
+
+"#arrowLeft": {
+    left: 20
+}
