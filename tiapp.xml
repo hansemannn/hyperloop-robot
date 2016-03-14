@@ -53,7 +53,7 @@
         <target device="android">false</target>
         <target device="mobileweb">false</target>
     </deployment-targets>
-    <sdk-version>5.2.1-netrocks</sdk-version>
+    <sdk-version>5.2.1.RC</sdk-version>
     <plugins>
         <plugin version="1.0">ti.alloy</plugin>
         <plugin>hyperloop</plugin>

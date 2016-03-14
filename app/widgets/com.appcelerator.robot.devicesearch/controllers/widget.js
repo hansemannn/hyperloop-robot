@@ -31,7 +31,11 @@ function searchDevices() {
 	showLoader();
 
 	// Todo: Search here and call `openDeviceList()` or `invokeCallback`
-	// Ti.API.warn("isDiscovering: " + RKRobotDiscoveryAgent.sharedAgent().isDiscovering());
+	try {
+		alert("isDiscovering: " + RKRobotDiscoveryAgent.sharedAgent().isDiscovering());
+	} catch(e) {
+		
+	}
 
 	searchTimeout = setTimeout(function() {
 		hideLoader();
