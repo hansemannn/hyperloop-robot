@@ -4,7 +4,7 @@
 		<ImageView class="logo" />
 		<View id="content">
 			<ActivityIndicator id="loader" />
-			<Label class="loaderText" text="Searching for devices ..." />
+			<Label id="loaderText" text="Searching for devices ..." />
 		</View>
 		<AlertDialog id="alert" onClick="handleDialogClick">
 			<ButtonNames>

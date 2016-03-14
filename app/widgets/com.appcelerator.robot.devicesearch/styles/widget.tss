@@ -14,10 +14,10 @@
 	style: Titanium.UI.ActivityIndicatorStyle.BIG
 }
 
-".loaderText": {
+"#loaderText": {
 	color: "#fff",
 	top: 10,
-	textAlign: "center"	
+	textAlign: "center"
 }
 
 "#alert": {

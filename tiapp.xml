@@ -45,6 +45,7 @@
     </android>
     <modules>
         <module platform="iphone" version="1.1.1">hyperloop</module>
+        <module platform="iphone" version="1.0.0">ti.sphero</module>
         <module platform="android" version="1.1.1">hyperloop</module>
     </modules>
     <deployment-targets>
