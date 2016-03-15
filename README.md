@@ -1,6 +1,6 @@
 # <img src="http://abload.de/img/sphero-logolds8n.png" width="350">
 
-Appcelerator Hyperloop based application to program for the Sphero iOS SDK.
+Appcelerator Hyperloop based application to program for the Sphero iOS SDK. This project uses the native module [ti.sphero](https://github.com/hansemannn/ti.sphero) to communicate to the Sphero framework. This will also be bridged to Hyperloop in the new feature.
 
 ### Features
 
