@@ -46,7 +46,6 @@ function setUI() {
 		$.listSection.setItems(cells);
 	}
 
-
 	devices.fetch({
 		success : configureCells
 	});
@@ -82,17 +81,34 @@ function deleteDevice(e) {
 }
 
 function openDetails(e) {
-	var model = devices.get(e.itemId);
+    var model = devices.get(e.itemId);
+    var TiSphero = require("ti.sphero");
 
 	if (!model.get("connected")) {
+        TiSphero = null;
+        delete TiSphero;
 		showNotConnectedWarning();
 		return;
 	}
 
-	$.nav.openWindow(Alloy.createWidget("com.appcelerator.robot.devicedetails", {
-		nav : $.nav,
-		id : e.itemId
-	}).getView());
+    TiSphero.addEventListener("connectionchange", function(e) {
+        if (e.type == TiSphero.CONNECTION_STATUS_ONLINE) {
+
+            if (!e.robot) {
+                Ti.API.error("Invalid state - No robot found!");
+                return;
+            }
+
+        	$.nav.openWindow(Alloy.createWidget("com.appcelerator.robot.devicedetails", {
+        		nav : $.nav,
+                robot: e.robot
+        	}).getView());
+
+            TiSphero.stopDiscovery();
+        }
+    });
+
+    TiSphero.startDiscovery();
 }
 
 function showNotConnectedWarning() {

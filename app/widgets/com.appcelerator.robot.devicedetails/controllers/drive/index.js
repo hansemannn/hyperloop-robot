@@ -1,10 +1,10 @@
-var TiSphero;
+var robot;
 
 /**
  *  Constructor
  **/
 (function constructor(args) {
-	TiSphero = require("ti.sphero");
+	robot = args.robot;
 	setUI();
 })(arguments[0] || {});
 
@@ -51,5 +51,5 @@ function driveLeft() {
 }
 
 function drive(heading, velocity) {
-	TiSphero.startDrivingWithHeadingAndVelocity(heading, velocity);
+	robot.startDrivingWithHeadingAndVelocity(heading, velocity);
 }

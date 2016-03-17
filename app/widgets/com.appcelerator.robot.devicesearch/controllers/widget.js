@@ -35,11 +35,10 @@ function handleConnectionChange(e) {
 
     if (e.status == TiSphero.CONNECTION_STATUS_CONNECTING) {
         $.loaderText.setText("Connecting ...");
-    } else if (e.status == TiSphero.CONNECTION_STATUS_CONNECTED) {
+    } else if (e.status == TiSphero.CONNECTION_STATUS_ONLINE) {
         $.loaderText.setText("Robot connected!");
-        TiSphero.stopDiscovery();
         setTimeout(function() {
-            createRobot();
+            createRobot(e.robot);
         }, 500);
     } else {
         // hideLoader();
@@ -47,14 +46,16 @@ function handleConnectionChange(e) {
     }
 }
 
-function createRobot() {
+function createRobot(robot) {
     var devices = Alloy.Collections.instance("device");
     var foundDevices = [];
-    var robot;
 
     devices.fetch();
+
+    alert(robot.getIdentifier());
+
     foundDevices = devices.where({
-        title: TiSphero.getRobotName()
+        identifier: robot.getIdentifier()
     });
 
     if (foundDevices.length == 1) {
@@ -63,13 +64,16 @@ function createRobot() {
         robot.save();
     } else {
         var robot = Alloy.createModel("device", {
-            identifier: require("utils").slugify(TiSphero.getRobotName()),
-            title: TiSphero.getRobotName(),
+            identifier: robot.getIdentifier(),
+            title: robot.getName(),
             created_at : moment().unix(),
             connected: true
         });
         robot.save();
     }
+
+    TiSphero.stopDiscovery();
+    TiSphero.removeEventListener("connectionchange", handleConnectionChange);
 
     openDeviceList();
 }
