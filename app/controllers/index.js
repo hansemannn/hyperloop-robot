@@ -4,6 +4,15 @@ var devices;
  *  Constructor
  **/
 (function constructor() {
+
+	if (Ti.App.getDeployType() == "development") {
+		Ti.UI.createAlertDialog({
+			title: "Warning",
+			message: "This application requires a Bluetooth-capable device. Please run this application on a device and try again."
+		}).show();
+		return;
+	}
+
 	devices = Alloy.Collections.instance("device");
 	devices.fetch({
 		success: bootApplication
@@ -11,27 +20,10 @@ var devices;
 })();
 
 function bootApplication() {
-	mockDevice();
-
 	if (hasDevices()) {
 		Alloy.createWidget("com.appcelerator.robot.devicelist").getView().open();
 	} else {
 		Alloy.createWidget("com.appcelerator.robot.devicesearch").getView().open();
-	}	
-}
-
-function mockDevice() {
-	if (Ti.App.getDeployType() == "development" && !hasDevices()) {
-		var moment = require("alloy/moment");
-		var now = moment();
-
-		var model = Alloy.createModel("device", {
-			title : "Sphero BB-8",
-			identifier : "bb-8",
-			created_at : now.unix(),
-			connected: 1
-		});
-		model.save();
 	}
 }
 
