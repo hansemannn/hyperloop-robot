@@ -36,3 +36,7 @@ function setUI() {
 	shapeLayer.strokeEnd = 1.0;
 	view.layer.addSublayer(shapeLayer);
 }
+
+function bubble() {
+	// Bubbles to parent view
+}

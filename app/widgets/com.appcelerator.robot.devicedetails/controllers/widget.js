@@ -6,13 +6,13 @@ var robot,
  **/
 (function constructor(args) {
 	nav = args.nav;
-    robot = e.robot;
+    robot = args.robot;
 
     setUI();
 })(arguments[0] || {});
 
 function setUI() {
-	$.window.setTitle(device.get("title"));
+	$.window.setTitle(robot.getName());
 }
 
 function openFeature(e) {

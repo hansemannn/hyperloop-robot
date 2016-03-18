@@ -8,6 +8,7 @@
 ".arrow": {
     width: 40,
     height: 40,
+    bubbleParent: true,
 //    backgroundColor: "green"
 }
 

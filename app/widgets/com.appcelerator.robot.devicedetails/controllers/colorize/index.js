@@ -1,3 +1,5 @@
+var robot;
+
 /**
  *  Constructor
  **/
@@ -14,6 +16,8 @@
     currentColorView.setFrame(CGRectMake(0, 0, Ti.Platform.displayCaps.platformWidth, 50));
     currentColorView.setBackgroundColor(defaultColor);
 
+    robot = args.robot;
+
     var colorDidChangeBlock = function(color) {
         currentColorView.setBackgroundColor(color);
     };
@@ -22,5 +26,9 @@
 
     $.container.add(colorPickerView);
     $.container.add(currentColorView);
+
+    setTimeout(function() {
+        robot.setLEDColor("purple");
+    },2000);
 
 })(arguments[0] || {});

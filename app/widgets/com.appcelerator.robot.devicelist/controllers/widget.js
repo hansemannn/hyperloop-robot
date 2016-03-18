@@ -28,7 +28,7 @@ function setUI() {
 					height : 140
 				},
 				title : {
-					text : device.get("title")
+					text : device.get("title") + " [" + device.get("identifier") + "]"
 				},
 				subtitle : {
 					text : "Added " + moment(device.get("created_at") * 1000).format("YYYY/MM/DD")
@@ -91,23 +91,35 @@ function openDetails(e) {
 		return;
 	}
 
-    TiSphero.addEventListener("connectionchange", function(e) {
-        if (e.type == TiSphero.CONNECTION_STATUS_ONLINE) {
+    function handleDiscovery(_e) {
+        if (_e.status == TiSphero.CONNECTION_STATUS_ONLINE) {
 
-            if (!e.robot) {
+            if (!_e.robot) {
                 Ti.API.error("Invalid state - No robot found!");
                 return;
             }
 
         	$.nav.openWindow(Alloy.createWidget("com.appcelerator.robot.devicedetails", {
         		nav : $.nav,
-                robot: e.robot
+                robot: _e.robot
         	}).getView());
 
-            TiSphero.stopDiscovery();
+            stopDiscovery()
+        } else if (_e.status == TiSphero.CONNECTION_STATUS_OFFLINE) {
+            showNotConnectedWarning();
+            stopDiscovery()
         }
-    });
+    }
 
+    function stopDiscovery() {
+        TiSphero.stopDiscovery();
+        TiSphero.removeEventListener("connectionchange", handleDiscovery);
+
+        TiSphero = null;
+        delete TiSphero;
+    }
+
+    TiSphero.addEventListener("connectionchange", handleDiscovery);
     TiSphero.startDiscovery();
 }
 

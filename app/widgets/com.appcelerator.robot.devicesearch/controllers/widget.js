@@ -52,8 +52,6 @@ function createRobot(robot) {
 
     devices.fetch();
 
-    alert(robot.getIdentifier());
-
     foundDevices = devices.where({
         identifier: robot.getIdentifier()
     });

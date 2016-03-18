@@ -51,5 +51,11 @@ function driveLeft() {
 }
 
 function drive(heading, velocity) {
+	Ti.API.debug("Driving with heading = "+heading + " and velocity = " + velocity);
 	robot.startDrivingWithHeadingAndVelocity(heading, velocity);
+}
+
+function stopDriving() {
+	Ti.API.debug("Stopping ...");
+	robot.stopDriving();
 }

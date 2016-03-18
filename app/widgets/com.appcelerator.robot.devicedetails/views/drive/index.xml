@@ -2,10 +2,10 @@
 	<Window id="window" title="Drive">
 		<View id="container">
 			<View id="circle"/>
-			<View class="arrow" id="arrowTop" onClick="driveForward" />
-			<View class="arrow" id="arrowRight" onClick="driveRight" />
-			<View class="arrow" id="arrowBottom" onClick="driveBackward" />
-			<View class="arrow" id="arrowLeft" onClick="driveLeft" />
+			<View class="arrow" id="arrowTop" onTouchstart="driveForward" onTouchend="stopDriving" />
+			<View class="arrow" id="arrowRight" onClick="driveRight" onTouchend="stopDriving" />
+			<View class="arrow" id="arrowBottom" onClick="driveBackward" onTouchend="stopDriving" />
+			<View class="arrow" id="arrowLeft" onClick="driveLeft" onTouchend="stopDriving" />
 		</View>
 	</Window>
 </Alloy>
