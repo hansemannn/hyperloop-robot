@@ -4,6 +4,44 @@ var robot;
  *  Constructor
  **/
 (function constructor(args) {
+    // addColorPicker();
+    addColorPalette();
+})(arguments[0] || {});
+
+function addColorPalette() {
+    var colors = ['aqua', 'black', 'blue', 'fuchsia', 'gray', 'green', 'lime',
+                  'maroon', 'navy', 'olive', 'orange', 'purple', 'red', 'silver',
+                  'teal', 'white', 'yellow'];
+
+    _.each(colors, function(color) {
+        $.container.add(createViewWithColor(color));
+    });
+}
+
+function createViewWithColor(color) {
+    var width = height = Math.floor(Ti.Platform.displayCaps.platformWidth / 3); // 3 cols per row
+    var view = Ti.UI.createView({
+        width: width,
+        height: height,
+        backgroundColor: color
+    });
+
+    view.addEventListener("click", selectColor);
+
+    return view;
+}
+
+function selectColor(e) {
+    _.each($.container.children, function(view) {
+        view.animate({
+            opacity: view.backgroundColor != e.source.backgroundColor ? 0.3 : 1.0
+        });
+    });
+
+    robot.setLEDColor(e.source.backgroundColor);
+}
+
+function addColorPicker() {
     var NKOColorPickerView = require("NKOColorPickerView/NKOColorPickerView"),
         UIView = require('UIKit/UIView'),
         UIColor = require('UIKit/UIColor'),
@@ -26,9 +64,4 @@ var robot;
 
     $.container.add(colorPickerView);
     $.container.add(currentColorView);
-
-    setTimeout(function() {
-        robot.setLEDColor("purple");
-    },2000);
-
-})(arguments[0] || {});
+}

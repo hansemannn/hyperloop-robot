@@ -84,11 +84,21 @@ function deleteDevice(e) {
 
 function openDetails(e) {
     if (Ti.App.getDeployType() == "development") {
-    	Ti.API.warn("The Sphero SDK is for devices-only");
+    	Ti.API.warn("The Sphero SDK is for devices-only, mocking ...");
+
+        $.nav.openWindow(Alloy.createWidget("com.appcelerator.robot.devicedetails", {
+            nav : $.nav,
+            robot: {
+                getName: function() {
+                    return "test"
+                }
+            }
+        }).getView());
+
     	return;
     }
 
-    var model = devices.get(e.itemId);        
+    var model = devices.get(e.itemId);
     var TiSphero = require("ti.sphero");
 
 	if (!model.get("connected")) {
