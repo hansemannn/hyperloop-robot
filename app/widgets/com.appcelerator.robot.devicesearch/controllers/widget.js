@@ -16,7 +16,12 @@ var searchTimeout,
 
 	RKConvenienceRobot = require("RobotKit/RKConvenienceRobot");
     RKRobotDiscoveryAgent = require("RobotKit/RKRobotDiscoveryAgent");
-    TiSphero = require("ti.sphero");
+    
+    if (Ti.App.getDeployType() != "development") {
+	    TiSphero = require("ti.sphero");
+	    TiSphero.addEventListener("connectionchange", handleConnectionChange);
+    }
+    
     moment = require("alloy/moment");
 
     SEARCH_STATE = {
@@ -26,8 +31,6 @@ var searchTimeout,
 
     currentSearchState = SEARCH_STATE.DEFAULT;
 	timeoutOffset = 20000;
-
-    TiSphero.addEventListener("connectionchange", handleConnectionChange);
 })();
 
 function handleConnectionChange(e) {
@@ -77,12 +80,17 @@ function createRobot(robot) {
 }
 
 function searchDevices() {
+    if (Ti.App.getDeployType() == "development") {
+    	Ti.API.warn("The Sphero SDK is for devices-only");
+		$.alert.show();
+    	return;
+	}
 
 	clearSearchTimeout();
 	showLoader();
-
+    
     TiSphero.startDiscovery();
-
+	
 	searchTimeout = setTimeout(function() {
         TiSphero.stopDiscovery();
 

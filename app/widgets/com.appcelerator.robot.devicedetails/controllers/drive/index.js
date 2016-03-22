@@ -16,15 +16,15 @@ function setUI() {
 	var left = Widget.createController("drive/arrow").getView();
 
 	top.animate({
-		transform: Ti.UI.create2DMatrix().rotate(-90)
+		transform : Ti.UI.create2DMatrix().rotate(-90)
 	});
 
 	bottom.animate({
-		transform: Ti.UI.create2DMatrix().rotate(90)
+		transform : Ti.UI.create2DMatrix().rotate(90)
 	});
 
 	left.animate({
-		transform: Ti.UI.create2DMatrix().rotate(180)
+		transform : Ti.UI.create2DMatrix().rotate(180)
 	});
 
 	$.circle.add(circle);
@@ -51,7 +51,7 @@ function driveLeft() {
 }
 
 function drive(heading, velocity) {
-	Ti.API.debug("Driving with heading = "+heading + " and velocity = " + velocity);
+	Ti.API.debug("Driving with heading = " + heading + " and velocity = " + velocity);
 	robot.startDrivingWithHeadingAndVelocity(heading, velocity);
 }
 

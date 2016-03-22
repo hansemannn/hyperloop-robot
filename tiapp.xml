@@ -28,12 +28,24 @@
                 <array>
                     <string>com.orbotix.robotprotocol</string>
                 </array>
-                
                 <key>UIStatusBarStyle</key>
                 <string>UIStatusBarStyleLightContent</string>
                 <key>UIAppFonts</key>
                 <array>
-                    <string>/assets/fonts/plexesmediumpro.ttf</string>
+                    <string>assets/fonts/plexesmediumpro.ttf</string>
+                </array>
+                <key>UIApplicationShortcutItems</key>
+                <array>
+                    <dict>
+                        <key>UIApplicationShortcutItemIconType</key>
+                        <string>UIApplicationShortcutIconTypeSearch</string>
+                        <key>UIApplicationShortcutItemTitle</key>
+                        <string>Search Robots</string>
+                        <key>UIApplicationShortcutItemType</key>
+                        <string>SearchRobots</string>
+                        <key>UIApplicationShortcutItemUserInfo</key>
+                        <dict/>
+                    </dict>
                 </array>
             </dict>
         </plist>
@@ -44,8 +56,9 @@
         </manifest>
     </android>
     <modules>
+        <module deploy-type="test" platform="iphone" version="1.0.0">ti.sphero</module>
+        <module deploy-type="production" platform="iphone" version="1.0.0">ti.sphero</module>
         <module platform="iphone" version="1.1.1">hyperloop</module>
-        <module platform="iphone" version="1.0.0">ti.sphero</module>
         <module platform="android" version="1.1.1">hyperloop</module>
     </modules>
     <deployment-targets>

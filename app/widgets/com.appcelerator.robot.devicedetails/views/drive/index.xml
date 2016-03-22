@@ -3,9 +3,9 @@
 		<View id="container">
 			<View id="circle"/>
 			<View class="arrow" id="arrowTop" onTouchstart="driveForward" onTouchend="stopDriving" />
-			<View class="arrow" id="arrowRight" onClick="driveRight" onTouchend="stopDriving" />
-			<View class="arrow" id="arrowBottom" onClick="driveBackward" onTouchend="stopDriving" />
-			<View class="arrow" id="arrowLeft" onClick="driveLeft" onTouchend="stopDriving" />
+			<View class="arrow" id="arrowRight" onTouchstart="driveRight" onTouchend="stopDriving" />
+			<View class="arrow" id="arrowBottom" onTouchstart="driveBackward" onTouchend="stopDriving" />
+			<View class="arrow" id="arrowLeft" onTouchstart="driveLeft" onTouchend="stopDriving" />
 		</View>
 	</Window>
 </Alloy>

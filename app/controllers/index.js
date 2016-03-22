@@ -4,27 +4,32 @@ var devices;
  *  Constructor
  **/
 (function constructor() {
-
-	if (Ti.App.getDeployType() == "development") {
-		Ti.UI.createAlertDialog({
-			title: "Warning",
-			message: "This application requires a Bluetooth-capable device. Please run this application on a device and try again."
-		}).show();
-		return;
-	}
-
 	devices = Alloy.Collections.instance("device");
 	devices.fetch({
-		success: bootApplication
+		success : bootApplication
 	});
 })();
 
+function initializeEventDispatcher() {
+	Ti.App.addEventListener("shortcutitemclick", openDeviceSearch);
+}
+
 function bootApplication() {
+	initializeEventDispatcher();
+
 	if (hasDevices()) {
-		Alloy.createWidget("com.appcelerator.robot.devicelist").getView().open();
+		openDeviceList();
 	} else {
-		Alloy.createWidget("com.appcelerator.robot.devicesearch").getView().open();
+		openDeviceSearch();
 	}
+}
+
+function openDeviceSearch() {
+	Alloy.createWidget("com.appcelerator.robot.devicesearch").getView().open();
+}
+
+function openDeviceList() {
+	Alloy.createWidget("com.appcelerator.robot.devicelist").getView().open();
 }
 
 function hasDevices() {

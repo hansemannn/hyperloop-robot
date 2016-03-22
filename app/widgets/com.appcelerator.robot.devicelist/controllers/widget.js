@@ -83,7 +83,12 @@ function deleteDevice(e) {
 }
 
 function openDetails(e) {
-    var model = devices.get(e.itemId);
+    if (Ti.App.getDeployType() == "development") {
+    	Ti.API.warn("The Sphero SDK is for devices-only");
+    	return;
+    }
+
+    var model = devices.get(e.itemId);        
     var TiSphero = require("ti.sphero");
 
 	if (!model.get("connected")) {
