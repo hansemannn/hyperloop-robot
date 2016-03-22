@@ -18,6 +18,10 @@ function focusNameField() {
 	$.name.focus();
 }
 
+function validateSubmitButton(e) {
+	$.submit.setEnabled($.ip.getValue().trim().length > 0 && $.name.getValue().trim().length > 0);
+}
+
 function cancel() {
 	close();
 	onCancel && onCancel();

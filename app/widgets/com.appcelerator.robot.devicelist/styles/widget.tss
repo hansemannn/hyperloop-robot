@@ -16,9 +16,10 @@
 	height: Ti.UI.SIZE,
 	backgroundColor: "#fff",
 	borderRadius: 4,
-	top: 15,
+	top: 8,
 	left: 15,
-	right: 15
+	right: 15,
+	bottom: 7
 }
 
 ".robotTitle": {

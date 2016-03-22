@@ -8,7 +8,7 @@ var devices,
 	devices = Alloy.Collections.instance("device");
 	moment = require("alloy/moment");
 
-    // TODO: Think about start process to update the known device status' on start
+    // TODO: Think about start process to update the known device-status on start
 
 	setUI();
 })();
