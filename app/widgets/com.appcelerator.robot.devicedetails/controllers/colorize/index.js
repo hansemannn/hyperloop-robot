@@ -4,11 +4,37 @@ var robot;
  *  Constructor
  **/
 (function constructor(args) {
+    robot = args.robot;
+
     // addColorPicker();
-    addColorPalette();
+    addColorGrid();
 })(arguments[0] || {});
 
-function addColorPalette() {
+function addColorGrid() {
+
+    function createViewWithColor(color) {
+        var width = height = Math.floor(Ti.Platform.displayCaps.platformWidth / 3); // 3 cols per row
+        var view = Ti.UI.createView({
+            width: width,
+            height: height,
+            backgroundColor: color
+        });
+
+        view.addEventListener("click", selectColor);
+
+        return view;
+    }
+    
+    function selectColor(e) {
+        _.each($.container.children, function(view) {
+            view.animate({
+                opacity: view.backgroundColor != e.source.backgroundColor ? 0.3 : 1.0
+            });
+        });
+
+        robot.setLEDColor(e.source.backgroundColor);
+    }
+
     var colors = ['aqua', 'black', 'blue', 'fuchsia', 'gray', 'green', 'lime',
                   'maroon', 'navy', 'olive', 'orange', 'purple', 'red', 'silver',
                   'teal', 'white', 'yellow'];
@@ -16,29 +42,6 @@ function addColorPalette() {
     _.each(colors, function(color) {
         $.container.add(createViewWithColor(color));
     });
-}
-
-function createViewWithColor(color) {
-    var width = height = Math.floor(Ti.Platform.displayCaps.platformWidth / 3); // 3 cols per row
-    var view = Ti.UI.createView({
-        width: width,
-        height: height,
-        backgroundColor: color
-    });
-
-    view.addEventListener("click", selectColor);
-
-    return view;
-}
-
-function selectColor(e) {
-    _.each($.container.children, function(view) {
-        view.animate({
-            opacity: view.backgroundColor != e.source.backgroundColor ? 0.3 : 1.0
-        });
-    });
-
-    robot.setLEDColor(e.source.backgroundColor);
 }
 
 function addColorPicker() {
@@ -53,8 +56,6 @@ function addColorPicker() {
     var currentColorView = new UIView();
     currentColorView.setFrame(CGRectMake(0, 0, Ti.Platform.displayCaps.platformWidth, 50));
     currentColorView.setBackgroundColor(defaultColor);
-
-    robot = args.robot;
 
     var colorDidChangeBlock = function(color) {
         currentColorView.setBackgroundColor(color);
