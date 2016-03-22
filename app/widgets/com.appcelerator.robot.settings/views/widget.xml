@@ -2,7 +2,7 @@
 	<NavigationWindow id="nav">
 		<Window title="Settings">
 			<RightNavButton title="Close" onClick="close" />
-			<ListView id="listView">
+			<ListView id="listView" onItemclick="handleAction">
 				<ListSection headerTitle="General">
 					<ListItem title="FAQ" itemId="faq" />
 					<ListItem title="License" itemId="license" />
