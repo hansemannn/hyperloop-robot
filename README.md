@@ -12,7 +12,7 @@ Appcelerator Hyperloop based application to program for the Sphero iOS SDK. This
 
 Author
 ---------------
-Hans Knoechel ([@hansemannnn](https://twitter.com/hansemannnn) / [Web](http://hans-knoechel.de))
+Hans Knoechel ([@hansemannnn](https://twitter.com/hansemannnn) / [Web](http://hans-knoechel.de)) x Appcelerator, Inc.
 
 ### License
 
