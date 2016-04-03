@@ -50,11 +50,7 @@
             </dict>
         </plist>
     </ios>
-    <android xmlns:android="http://schemas.android.com/apk/res/android">
-        <manifest>
-            <application android:theme="@style/appcelerator"/>
-        </manifest>
-    </android>
+    <android xmlns:android="http://schemas.android.com/apk/res/android" />
     <modules>
         <module deploy-type="test" platform="iphone" version="1.0.0">ti.sphero</module>
         <module deploy-type="production" platform="iphone" version="1.0.0">ti.sphero</module>
