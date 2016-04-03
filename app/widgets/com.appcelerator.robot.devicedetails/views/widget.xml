@@ -1,5 +1,5 @@
 <Alloy>
-	<Window id="window">
+	<Window id="window" onClose="disconnectRobot">
 		<ListView id="listView" onItemclick="openFeature" defaultItemTemplate="FeatureCell">
 			<Templates>
 				<ItemTemplate name="FeatureCell">

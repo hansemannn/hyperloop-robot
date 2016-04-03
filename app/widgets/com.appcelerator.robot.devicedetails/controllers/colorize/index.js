@@ -24,7 +24,7 @@ function addColorGrid() {
 
         return view;
     }
-    
+
     function selectColor(e) {
         _.each($.container.children, function(view) {
             view.animate({
@@ -35,9 +35,8 @@ function addColorGrid() {
         robot.setLEDColor(e.source.backgroundColor);
     }
 
-    var colors = ['aqua', 'black', 'blue', 'fuchsia', 'gray', 'green', 'lime',
-                  'maroon', 'navy', 'olive', 'orange', 'purple', 'red', 'silver',
-                  'teal', 'white', 'yellow'];
+    var colors = [Alloy.CFG.styles.tintColor, 'aqua', 'blue', 'fuchsia','lime', 'maroon',
+                  'navy', 'olive', 'orange', 'purple', 'red', 'silver', 'teal', 'yellow'];
 
     _.each(colors, function(color) {
         $.container.add(createViewWithColor(color));

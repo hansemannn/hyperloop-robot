@@ -1,5 +1,7 @@
 var devices,
-    moment;
+    moment,
+    isSearching,
+    TiSphero;
 
 /**
  *  Constructor
@@ -7,8 +9,9 @@ var devices,
 (function constructor() {
 	devices = Alloy.Collections.instance("device");
 	moment = require("alloy/moment");
+    isSearching = false;
 
-    // TODO: Think about start process to update the known device-status on start
+	// TODO: Think about start process to update the known device-status on start
 
 	setUI();
 })();
@@ -48,6 +51,7 @@ function setUI() {
 		$.listSection.setItems(cells);
 	}
 
+
 	devices.fetch({
 		success : configureCells
 	});
@@ -55,6 +59,8 @@ function setUI() {
 
 function refreshDevices() {
 	var deviceSearch = Alloy.createWidget("com.appcelerator.robot.devicesearch");
+	deviceSearch.setSphero(TiSphero);
+
 	deviceSearch.open({
 		onFound : setUI
 	});
@@ -74,72 +80,82 @@ function deleteDevice(e) {
 	devices.fetch();
 
 	if (devices.models && devices.models.length == 0) {
-		// TODO: Find out why the app crashes without timeout. Main thread issue?
-		setTimeout(function() {
-			$.nav.close();
-			Alloy.createWidget("com.appcelerator.robot.devicesearch").getView().open();
-		}, 250);
+		refreshDevices();
 	}
 }
 
 function openDetails(e) {
-    if (Ti.App.getDeployType() == "development") {
-    	Ti.API.warn("The Sphero SDK is for devices-only, mocking ...");
 
-        $.nav.openWindow(Alloy.createWidget("com.appcelerator.robot.devicedetails", {
-            nav : $.nav,
-            robot: {
-                getName: function() {
-                    return "test"
-                }
-            }
-        }).getView());
-
-    	return;
+    if (isSearching === true) {
+        Ti.UI.createAlertDialog({
+            title: "Warning",
+            message: "You are currently connectiong to a device, please wait."
+        }).show();
+        return;
     }
 
-    var model = devices.get(e.itemId);
-    var TiSphero = require("ti.sphero");
+    isSearching = true;
 
-	if (!model.get("connected")) {
-        TiSphero = null;
-        delete TiSphero;
-		showNotConnectedWarning();
+	if (Ti.App.getDeployType() == "development") {
+		Ti.API.warn("The Sphero SDK is for devices-only, mocking ...");
+
+		$.nav.openWindow(Alloy.createWidget("com.appcelerator.robot.devicedetails", {
+			nav : $.nav,
+			robot : {}
+		}).getView());
+
 		return;
 	}
 
-    function handleDiscovery(_e) {
-        if (_e.status == TiSphero.CONNECTION_STATUS_ONLINE) {
+	var model = devices.get(e.itemId);
 
-            if (!_e.robot) {
-                Ti.API.error("Invalid state - No robot found!");
-                return;
-            }
+    stopDiscovery();
+	TiSphero.addEventListener("connectionchange", handleDiscovery);
+	TiSphero.startDiscovery();
+}
 
-        	$.nav.openWindow(Alloy.createWidget("com.appcelerator.robot.devicedetails", {
-        		nav : $.nav,
-                robot: _e.robot
-        	}).getView());
+function handleDiscovery(_e) {
+    if (_e.status == TiSphero.CONNECTION_STATUS_ONLINE) {
 
-            stopDiscovery()
-        } else if (_e.status == TiSphero.CONNECTION_STATUS_OFFLINE) {
-            showNotConnectedWarning();
-            stopDiscovery()
+        if (!_e.robot) {
+            Ti.API.error("Invalid state - No robot found!");
+            return;
         }
-    }
 
-    function stopDiscovery() {
+        stopDiscovery();
+        isSearching = false;
+
+        $.nav.openWindow(Alloy.createWidget("com.appcelerator.robot.devicedetails", {
+            nav : $.nav,
+            robot : _e.robot
+        }).getView());
+    } else if (_e.status == TiSphero.CONNECTION_STATUS_OFFLINE) {
+        showNotConnectedWarning();
+        stopDiscovery();
+        isSearching = false;
+    }
+}
+
+function stopDiscovery() {
+    if (TiSphero.isDiscovering()) {
         TiSphero.stopDiscovery();
-        TiSphero.removeEventListener("connectionchange", handleDiscovery);
-
-        TiSphero = null;
-        delete TiSphero;
     }
 
-    TiSphero.addEventListener("connectionchange", handleDiscovery);
-    TiSphero.startDiscovery();
+    TiSphero.removeEventListener("connectionchange", handleDiscovery);
 }
 
 function showNotConnectedWarning() {
 	$.alert.show();
 }
+
+exports.setSphero = function(_TiSphero) {
+	TiSphero = _TiSphero;
+
+    if (TiSphero.isDiscovering()) {
+        TiSphero.stopDiscovery();
+    }
+};
+
+exports.open = function() {
+	$.nav.open();
+};

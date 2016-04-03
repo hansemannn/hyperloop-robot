@@ -15,6 +15,10 @@ function setUI() {
 	$.window.setTitle(robot.getName());
 }
 
+function disconnectRobot() {
+	robot.disconnect();
+}
+
 function openFeature(e) {
 	nav.openWindow(Widget.createController(e.itemId + "/index", {
         robot: robot

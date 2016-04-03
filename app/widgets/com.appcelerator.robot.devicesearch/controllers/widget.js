@@ -16,12 +16,6 @@ var searchTimeout,
 
 	RKConvenienceRobot = require("RobotKit/RKConvenienceRobot");
     RKRobotDiscoveryAgent = require("RobotKit/RKRobotDiscoveryAgent");
-    
-    if (Ti.App.getDeployType() != "development") {
-	    TiSphero = require("ti.sphero");
-	    TiSphero.addEventListener("connectionchange", handleConnectionChange);
-    }
-    
     moment = require("alloy/moment");
 
     SEARCH_STATE = {
@@ -73,9 +67,11 @@ function createRobot(robot) {
         robot.save();
     }
 
-    TiSphero.stopDiscovery();
-    TiSphero.removeEventListener("connectionchange", handleConnectionChange);
+    if (TiSphero.isDiscovering()) {
+        TiSphero.stopDiscovery();
+    }
 
+    TiSphero.removeEventListener("connectionchange", handleConnectionChange);
     openDeviceList();
 }
 
@@ -88,11 +84,13 @@ function searchDevices() {
 
 	clearSearchTimeout();
 	showLoader();
-    
+
     TiSphero.startDiscovery();
-	
+
 	searchTimeout = setTimeout(function() {
-        TiSphero.stopDiscovery();
+        if (TiSphero.isDiscovering()) {
+            TiSphero.stopDiscovery();
+        }
 
 		hideLoader();
 		$.alert.show();
@@ -154,7 +152,10 @@ function openAddManuallyView() {
 }
 
 function openDeviceList() {
+    TiSphero.disconnectAll();
+
 	var deviceList = Alloy.createWidget("com.appcelerator.robot.devicelist");
+    deviceList.setSphero(TiSphero);
 	deviceList.getView().open();
 }
 
@@ -178,8 +179,24 @@ function openNavWindow() {
 }
 
 exports.open = function(args) {
+
+	if (!args) {
+		$.window.open();
+		return;
+	}
+
     currentSearchState = SEARCH_STATE.MODAL;
     cb = args.onFound;
 
     openNavWindow();
+};
+
+exports.setSphero = function(_TiSphero) {
+    TiSphero = _TiSphero;
+
+    if (Ti.App.getDeployType() != "development") {
+    	Ti.API.warn(TiSphero);
+        TiSphero.removeEventListener("connectionchange", handleConnectionChange);
+        TiSphero.addEventListener("connectionchange", handleConnectionChange);
+    }
 };
