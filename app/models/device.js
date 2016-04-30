@@ -1,5 +1,5 @@
 /*
- * A collection of saves search forms.
+ * Defines a Sphero device
  */
 exports.definition = {
 	config : {
@@ -19,7 +19,7 @@ exports.definition = {
 		"adapter" : {
 			"type" : "sql",
 			"idAttribute" : "id",
-			"collection_name" : "searches"
+			"collection_name" : "devices"
 		}
 	},
 

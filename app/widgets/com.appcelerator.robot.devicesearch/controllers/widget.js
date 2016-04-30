@@ -76,9 +76,26 @@ function createRobot(robot) {
 }
 
 function searchDevices() {
-    if (Ti.App.getDeployType() == "development") {
-    	Ti.API.warn("The Sphero SDK is for devices-only");
-		$.alert.show();
+    if (Ti.App.getDeployType() == "development") {  
+        
+        var devices = Alloy.Collections.instance("device");
+        devices.fetch();
+
+        var foundDevices = devices.where({
+            identifier: "demo"
+        });
+
+        if (foundDevices.length == 0) {
+            var robot = Alloy.createModel("device", {
+                identifier: "demo",
+                title: "Demo",
+                created_at : moment().unix(),
+                connected: true
+            });
+            robot.save();
+        }
+
+        openDeviceList();
     	return;
 	}
 

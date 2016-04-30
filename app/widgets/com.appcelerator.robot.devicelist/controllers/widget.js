@@ -28,7 +28,7 @@ function setUI() {
 				properties : {
 					itemId : device.get("id"),
 					backgroundColor : "transparent",
-					selectionStyle : Ti.UI.iPhone.ListViewCellSelectionStyle.NONE,
+					selectionStyle : Ti.UI.iOS.ListViewCellSelectionStyle.NONE,
 					canEdit : true,
 					height : 140
 				},
@@ -98,10 +98,14 @@ function openDetails(e) {
 
 	if (Ti.App.getDeployType() == "development") {
 		Ti.API.warn("The Sphero SDK is for devices-only, mocking ...");
+        isSearching = false
 
 		$.nav.openWindow(Alloy.createWidget("com.appcelerator.robot.devicedetails", {
 			nav : $.nav,
-			robot : {}
+			robot : {
+                getName: function () {return "demo"},
+                disconnect: function () {}
+            }
 		}).getView());
 
 		return;

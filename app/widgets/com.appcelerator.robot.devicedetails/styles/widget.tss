@@ -7,7 +7,7 @@
 "ListItem": {
 	height: 130,
 	backgroundColor: "transparent",
-	selectionStyle: Ti.UI.iPhone.ListViewCellSelectionStyle.NONE
+	selectionStyle: Ti.UI.iOS.ListViewCellSelectionStyle.NONE
 }
 
 ".featureOutterContainer": {

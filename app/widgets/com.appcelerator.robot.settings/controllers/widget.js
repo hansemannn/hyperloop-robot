@@ -32,11 +32,11 @@ function resetDevices() {
 			reason : "Please verify to reset all devices",
 			callback : function(e) {
 				
-				e.success && reset();
+				!e.error && reset();
 				
-				Ti.API.warn("Success? - " + e.success);
-				Ti.API.warn("Error? - " + e.error);
-				Ti.API.warn("Code? - " + e.code);
+			//	Ti.API.warn("Success? - " + e.success);
+			//	Ti.API.warn("Error? - " + e.error);
+			//	Ti.API.warn("Code? - " + e.code);
 			}
 		});
 	} else {

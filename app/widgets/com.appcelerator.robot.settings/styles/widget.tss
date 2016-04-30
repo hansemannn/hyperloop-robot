@@ -1,5 +1,5 @@
 "#listView": {
-	style: Ti.UI.iPhone.ListViewStyle.GROUPED
+	style: Ti.UI.iOS.ListViewStyle.GROUPED
 }
 
 "ListItem": {
