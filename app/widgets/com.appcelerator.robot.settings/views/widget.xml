@@ -1,7 +1,7 @@
 <Alloy>
 	<NavigationWindow id="nav">
-		<Window title="Settings" id="window">
-			<RightNavButton title="Close" onClick="close" />
+		<Window titleid="settings" id="window">
+			<RightNavButton titleid="close" onClick="close" />
 		</Window>
 	</NavigationWindow>
 </Alloy>

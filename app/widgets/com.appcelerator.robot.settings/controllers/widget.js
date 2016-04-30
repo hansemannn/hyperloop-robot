@@ -16,11 +16,11 @@ var UIScreen = require('UIKit/UIScreen'),
 	$.window.add(createTableView());
 	
 	dataStructure = [{
-		title: 'General',
-		items: ['FAQ', 'License', 'Privacy']
+		title: 'general',
+		items: ['faq', 'license', 'privacy']
 	}, {
-		title: 'Control Center',
-		items: ['Environment', 'Delete all devices']
+		title: 'control_center',
+		items: ['environment', 'delete_all_devices']
 	}];
 })();
 
@@ -44,7 +44,7 @@ function createTableView() {
 	};
 	
 	dataSourceDelegate.titleForHeader = function(tableView, section) {
-		return dataStructure[section].title;
+		return L(dataStructure[section].title);
 	};
 	
 	dataSourceDelegate.heightForRow = function(tableView, indexPath) {
@@ -61,7 +61,7 @@ function createTableView() {
 		selectionView.setBackgroundColor(UIColor.colorWithRedGreenBlueAlpha(201/255, 19/255, 38/255, 1.0));
 		
 		cell.backgroundColor = UIColor.colorWithRedGreenBlueAlpha(42/255, 42/255, 42/255, 1.0);
-		cell.textLabel.text = dataStructure[indexPath.section].items[indexPath.row];
+		cell.textLabel.text = L(dataStructure[indexPath.section].items[indexPath.row]);
 		cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
 		cell.selectedBackgroundView = selectionView;
 		

@@ -1,15 +1,15 @@
 <Alloy>
-	<Window onOpen="searchDevices" onClose="clearSearchTimeout" id="window" title="Search devices">
-		<LeftNavButton title="Cancel" onClick="close" />
+	<Window onOpen="searchDevices" onClose="clearSearchTimeout" id="window" titleid="search_devices">
+		<LeftNavButton titleid="cancel" onClick="close" />
 		<ImageView class="logo" />
 		<View id="content">
 			<ActivityIndicator id="loader" />
-			<Label id="loaderText" text="Searching for devices ..." />
+			<Label id="loaderText" textid="search_devices" />
 		</View>
 		<AlertDialog id="alert" onClick="handleDialogClick">
 			<ButtonNames>
-				<ButtonName>Try again</ButtonName>
-				<ButtonName>Add manually</ButtonName>
+				<ButtonName>L("try_again")</ButtonName>
+				<ButtonName>L("add_manually")</ButtonName>
 			</ButtonNames>
 		</AlertDialog>
 	</Window>

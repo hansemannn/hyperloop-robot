@@ -1,5 +1,5 @@
 <Alloy>
-	<Window id="window" title="Drive">
+	<Window id="window" titleid="drive">
 		<Circle module="controls">
 			<Arrow module="controls" class="arrow" id="arrowTop" rotation="-90" onTouchstart="driveForward" onTouchend="stopDriving" />
 			<Arrow module="controls" class="arrow" id="arrowRight" rotation="0" onTouchstart="driveRight" onTouchend="stopDriving" />

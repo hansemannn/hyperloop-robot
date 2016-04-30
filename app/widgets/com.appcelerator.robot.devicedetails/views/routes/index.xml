@@ -1,5 +1,5 @@
 <Alloy>
-	<Window id="window" title="Routes">
-		<Button onClick="executeTestCommand">Execute</Button>
+	<Window id="window" titleid="routes">
+		<Button onClick="executeTestCommand">L("execute")</Button>
 	</Window>
 </Alloy>

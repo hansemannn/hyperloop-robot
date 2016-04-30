@@ -24,13 +24,13 @@ var searchTimeout,
 	timeoutOffset = 20000;
 })();
 
-function handleConnectionChange(e) {
+function handleDiscovery(e) {
     clearSearchTimeout();
 
     if (e.status == TiSphero.CONNECTION_STATUS_CONNECTING) {
-        $.loaderText.setText("Connecting ...");
+        $.loaderText.setTextid("connecting");
     } else if (e.status == TiSphero.CONNECTION_STATUS_ONLINE) {
-        $.loaderText.setText("Robot connected!");
+        $.loaderText.setTextid("robot_connected");
         setTimeout(function() {
             createRobot(e.robot);
         }, 500);
@@ -68,7 +68,7 @@ function createRobot(robot) {
         TiSphero.stopDiscovery();
     }
 
-    TiSphero.removeEventListener("connectionchange", handleConnectionChange);
+    TiSphero.removeEventListener("connectionchange", handleDiscovery);
     openDeviceList();
 }
 

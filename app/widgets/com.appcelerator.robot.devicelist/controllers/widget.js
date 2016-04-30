@@ -38,14 +38,14 @@ function setUI() {
 					text : device.get("title") + " [" + device.get("identifier") + "]"
 				},
 				subtitle : {
-					text : "Added " + moment(device.get("created_at") * 1000).format("YYYY/MM/DD")
+					text : L("added") + " " + moment(device.get("created_at") * 1000).format("YYYY/MM/DD")
 				},
 				statusBadge : {
 					tintColor : isConnected ? "#3dcb3d" : "#dbdbdb",
 					image : "/images/icons/" + ( isConnected ? "connected" : "disconnected") + ".png"
 				},
 				statusLabel : {
-					text : isConnected ? "Connected" : "Not connected"
+					text : L(isConnected ? "connected" : "not_connected")
 				},
 			});
 		});
@@ -88,8 +88,8 @@ function openDetails(e) {
 
     if (isSearching === true) {
         Ti.UI.createAlertDialog({
-            title: "Warning",
-            message: "You are currently connectiong to a device, please wait."
+            titleid: "warning",
+            messageid: "warning_not_connected"
         }).show();
         return;
     }

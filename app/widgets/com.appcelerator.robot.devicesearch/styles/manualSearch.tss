@@ -26,12 +26,12 @@
 }
 
 "#ip": {
-	hintText: "IP address (required)",
+	hintText: L("ip_address"),
 	returnKeyType: Ti.UI.RETURNKEY_NEXT
 }
 
 "#name": {
-	hintText: "Name (optional)",
+	hintText: L("name"),
 	returnKeyType: Ti.UI.RETURNKEY_DONE
 }
 
@@ -41,6 +41,5 @@
 	enabled: false,
 	backgroundColor: Alloy.CFG.styles.tintColor,
 	tintColor: "#fff",
-	title: "Connect",
 	borderRadius: 4
 }

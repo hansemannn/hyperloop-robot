@@ -11,9 +11,9 @@
 				</ItemTemplate>
 			</Templates>
 			<ListSection>
-				<ListItem itemId="drive" image:image="images/icons/features/drive.png" title:text="Drive" />
-				<ListItem itemId="colorize" image:image="images/icons/features/colorize.png" title:text="Colorize" />
-				<!--<ListItem itemId="routes" image:image="images/icons/features/routes.png" title:text="Routes" />-->
+				<ListItem itemId="drive" image:image="images/icons/features/drive.png" title:text="L('drive')" />
+				<ListItem itemId="colorize" image:image="images/icons/features/colorize.png" title:text="L('colorize')" />
+				<!--<ListItem itemId="routes" image:image="images/icons/features/routes.png" title:textid="routes" />-->
 			</ListSection>
 		</ListView>
 	</Window>

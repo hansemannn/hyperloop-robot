@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<resources>
+	<string name="colorize">Einfärben</string>
+	<string name="drive">Fahren</string>
+	<string name="routes">Routen</string>
+	<string name="execute">Ausführen</string>
+	<string name="my_devices">Meine Geräte</string>
+	<string name="not_connected">Nicht verbunden</string>
+	<string name="not_connected_message">Dieses Gerät ist aktuell noch nicht verbunden. Bitte warte, bis das Gerät erfolgreich verbunden ist und versuche es erneut.</string>
+	<string name="add_robot">Roboter hinzufügen</string>
+	<string name="cancel">Abbrechen</string>
+	<string name="manual_search_intro">Du kannst einen Sphero Roboter manuell hinzufügen, indem du seine IP-Adresse nachschaust und sie unten in das Formular eingibst.</string>
+	<string name="connect">Verbunden</string>
+	<string name="ip_address">IP-Addresse (benötigt)</string>
+	<string name="name">Name (optional)</string>
+	<string name="search_devices">Geräte suchen</string>
+	<string name="search_devices_message">Suche nach Geräten ...</string>
+	<string name="try_again">Erneut versuchen</string>
+	<string name="add_manually">Manuell hinzufügen</string>
+	<string name="settings">Einstellungen</string>
+	<string name="close">Schließen</string>
+	<string name="added">Hinzugefügt</string>
+	<string name="connected">Verbunden</string>
+	<string name="not_connected">Nicht verbunden</string>
+	<string name="warning">Warnung</string>
+	<string name="warning_not_connected">Du wirst gerade mit einem Gerät verbunden, bitte warten.</string>
+	<string name="general">Allgemein</string>
+	<string name="faq">FAQ</string>
+	<string name="license">Lizenz</string>
+	<string name="privacy">Priivatsphäre</string>
+	<string name="control_center">Kontrollcenter</string>
+	<string name="environment">Umgebung</string>
+	<string name="delete_all_devices">Alle Geräte entfernen</string>
+	<string name="connecting">Verbinden ...</string>
+	<string name="robot_connected">Roboter verbunden!</string>
+</resources>
