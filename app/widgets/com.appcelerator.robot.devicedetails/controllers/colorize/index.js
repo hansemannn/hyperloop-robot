@@ -1,4 +1,11 @@
-var robot;
+var UIScreen = require('UIKit/UIScreen'),
+    UICollectionViewFlowLayout = require("UIKit/UICollectionViewFlowLayout"),
+    UIColor = require("UIKit/UIColor"),
+    UICollectionView = require("UIKit/UICollectionView"),
+    UICollectionViewCell = require("UIKit/UICollectionViewCell"),
+    UIEdgeInsetsMake = require("UIKit").UIEdgeInsetsMake,
+    CGSizeMake = require('CoreGraphics').CGSizeMake,
+    robot;
 
 /**
  *  Constructor
@@ -6,64 +13,82 @@ var robot;
 (function constructor(args) {
     robot = args.robot;
 
-    // addColorPicker();
-    addColorGrid();
+    $.window.add(createColorGrid());
 })(arguments[0] || {});
 
-function addColorGrid() {
-
-    function createViewWithColor(color) {
-        var width = height = Math.floor(Ti.Platform.displayCaps.platformWidth / 3); // 3 cols per row
-        var view = Ti.UI.createView({
-            top: 0,
-            left: 0,
-            width: width,
-            height: height,
-            backgroundColor: color
-        });
-
-        view.addEventListener("click", selectColor);
-
-        return view;
-    }
-
-    function selectColor(e) {
-        _.each($.container.children, function(view) {
-            view.animate({
-                opacity: view.backgroundColor != e.source.backgroundColor ? 0.3 : 1.0
-            });
-        });
-
-        robot.setLEDColor(e.source.backgroundColor);
-    }
-
-    var colors = [Alloy.CFG.styles.tintColor, 'aqua', 'blue', 'fuchsia','lime', 'maroon',
+function createColorGrid() {
+    var CollectionViewDataSourceAndDelegate = defineDataSourceAndDelegate();
+/*    var colors = [Alloy.CFG.styles.tintColor, 'aqua', 'blue', 'fuchsia','lime', 'maroon',
                   'navy', 'olive', 'orange', 'purple', 'red', 'silver', 'teal', 'yellow'];
+*/
 
-    _.each(colors, function(color) {
-        $.container.add(createViewWithColor(color));
-    });
-}
-
-function addColorPicker() {
-    var NKOColorPickerView = require("NKOColorPickerView/NKOColorPickerView"),
-        UIView = require('UIKit/UIView'),
-        UIColor = require('UIKit/UIColor'),
-        CGRectMake = require('CoreGraphics').CGRectMake;
-
-    var frame = CGRectMake(0, 50, Ti.Platform.displayCaps.platformWidth, Ti.Platform.displayCaps.platformHeight - 120);
-    var defaultColor = UIColor.greenColor();
-
-    var currentColorView = new UIView();
-    currentColorView.setFrame(CGRectMake(0, 0, Ti.Platform.displayCaps.platformWidth, 50));
-    currentColorView.setBackgroundColor(defaultColor);
-
-    var colorDidChangeBlock = function(color) {
-        currentColorView.setBackgroundColor(color);
+    var colors = [
+        UIColor.colorWithRedGreenBlueAlpha(201/255,19/255,38/255,1.0), 
+        UIColor.blueColor(), 
+        UIColor.yellowColor()
+    ];
+    
+    var screenRect = UIScreen.mainScreen().bounds;
+    var screenWidth = screenRect.size.width;
+    var cellWidth = screenWidth / 3.0; //Replace the divisor with the column count requirement. Make sure to have it in float.
+    
+    var layout = new UICollectionViewFlowLayout()
+    layout.sectionInset = UIEdgeInsetsMake(0, 0, 0, 0);
+    layout.itemSize = CGSizeMake(cellWidth, cellWidth);
+    layout.minimumLineSpacing = 0;
+    layout.minimumInteritemSpacing = 0;
+         
+    collectionView = UICollectionView.alloc().initWithFrameCollectionViewLayout(screenRect,layout);
+    collectionView.registerClassForCellWithReuseIdentifier(UICollectionViewCell.class(), "Cell");
+    collectionView.backgroundColor = UIColor.clearColor();
+    
+    var dataSourceDelegate = new CollectionViewDataSourceAndDelegate();
+    
+    dataSourceDelegate.numberOfCells = function(collectionView, indexPath) {
+        return colors.length;
+    };
+    
+    dataSourceDelegate.cellForItem = function(collectionView, indexPath) {
+        var cell = collectionView.dequeueReusableCellWithReuseIdentifierForIndexPath("Cell", indexPath);
+        cell.backgroundColor = colors[indexPath.row];
+        
+        return cell;
     };
 
-    var colorPickerView = NKOColorPickerView.alloc().initWithFrameColorAndDidChangeColorBlock(frame, defaultColor, colorDidChangeBlock);
+    collectionView.setDataSource(dataSourceDelegate);
+    collectionView.setDelegate(dataSourceDelegate);
+    
+    return collectionView;
+}
 
-    $.container.add(colorPickerView);
-    $.container.add(currentColorView);
+function defineDataSourceAndDelegate() {
+    var del = Hyperloop.defineClass('CollectionViewDataSourceAndDelegate', 'NSObject', ['UICollectionViewDataSource', 'UICollectionViewDelegateFlowLayout']);
+
+	del.addMethod({
+		selector: 'collectionView:numberOfItemsInSection:',
+		instance: true,
+		arguments: ['UICollectionView', 'long'],
+		returnType: 'long',
+		callback: function (collectionView, indexPath) {
+			if (this.numberOfCells) {
+				return this.numberOfCells(collectionView, indexPath);
+			}
+			return null;
+		}
+	});
+        
+	del.addMethod({
+		selector: 'collectionView:cellForItemAtIndexPath:',
+		instance: true,
+		arguments: ['UICollectionView', 'NSIndexPath'],
+		returnType: 'UICollectionViewCell',
+		callback: function (collectionView, indexPath) {
+			if (this.cellForItem) {
+				return this.cellForItem(collectionView, indexPath);
+			}
+			return null;
+		}
+	});
+    
+    return del;
 }

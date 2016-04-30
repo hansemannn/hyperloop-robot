@@ -1,5 +1,3 @@
 <Alloy>
-	<Window id="window" titleid="colorize">
-		<ScrollView id="container" />
-	</Window>
+	<Window id="window" titleid="colorize" />
 </Alloy>
