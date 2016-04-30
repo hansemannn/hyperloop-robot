@@ -1,4 +1,5 @@
 var UIScreen = require('UIKit/UIScreen'),
+	UIView = require('UIKit/UIView'),
 	UIColor = require('UIKit/UIColor'),
 	UITableView = require('UIKit/UITableView'),
 	UITableViewCell = require('UIKit/UITableViewCell'),
@@ -29,6 +30,9 @@ function createTableView() {
 
 	// Create + configure tableView
 	var tableView = UITableView.alloc().initWithFrameStyle(UIScreen.mainScreen().bounds, UITableViewStyleGrouped);
+	tableView.setBackgroundColor(UIColor.clearColor());
+	tableView.setSeparatorColor(UIColor.colorWithRedGreenBlueAlpha(63/255, 63/255, 63/255, 1.0));
+
 	var dataSourceDelegate = new TableViewDataSourceAndDelegate();
 
 	dataSourceDelegate.numberOfSections = function(tableView) {
@@ -53,17 +57,24 @@ function createTableView() {
 			cell = UITableViewCell.alloc().initWithStyleReuseIdentifier(UITableViewCellStyleDefault, 'hyperloop_cell');
 		}
 		
+		var selectionView = new UIView();
+		selectionView.setBackgroundColor(UIColor.colorWithRedGreenBlueAlpha(201/255, 19/255, 38/255, 1.0));
+		
+		cell.backgroundColor = UIColor.colorWithRedGreenBlueAlpha(42/255, 42/255, 42/255, 1.0);
 		cell.textLabel.text = dataStructure[indexPath.section].items[indexPath.row];
 		cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+		cell.selectedBackgroundView = selectionView;
 		
-		if (indexPath.section == 1 &&indexPath.row == 1) {
+		if (indexPath.section == 1 && indexPath.row == 1) {
 			cell.textLabel.textColor = UIColor.redColor();
+		} else {
+			cell.textLabel.textColor = UIColor.whiteColor();
 		}
 		
 		return cell;
 	};
 
-	dataSourceDelegate.didSelectRowAtIndexPath = function(tableView, indexPath) {
+	dataSourceDelegate.didSelectRow = function(tableView, indexPath) {
 		handleAction(dataStructure[indexPath.section].items[indexPath.row]);
 		tableView.deselectRowAtIndexPathAnimated(indexPath, true);
 	};
@@ -148,10 +159,9 @@ function defineDataSourceAndDelegate() {
 		instance: true,
 		arguments: ['UITableView', 'NSIndexPath'],
 		callback: function (tableView, indexPath) {
-			if (this.didSelectRowAtIndexPath) {
-				this.didSelectRowAtIndexPath(tableView, indexPath);
+			if (this.didSelectRow) {
+				this.didSelectRow(tableView, indexPath);
 			}
-			throw new Exception('TableViewDataSourceAndDelegate didSelectRowAtIndexPath(tableView, indexPath) missing');
 		}
 	});
 	
@@ -165,9 +175,7 @@ function handleAction(action) {
 		break;
 	default:
 		Ti.API.warn("Unhandled action: " + action);
-	}
-	
-	$.listView.deselectItem(e.sectionIndex, e.itemIndex);
+	}	
 }
 
 function resetDevices() {
