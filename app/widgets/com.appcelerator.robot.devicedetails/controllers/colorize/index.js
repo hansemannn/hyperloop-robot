@@ -15,6 +15,8 @@ function addColorGrid() {
     function createViewWithColor(color) {
         var width = height = Math.floor(Ti.Platform.displayCaps.platformWidth / 3); // 3 cols per row
         var view = Ti.UI.createView({
+            top: 0,
+            left: 0,
             width: width,
             height: height,
             backgroundColor: color

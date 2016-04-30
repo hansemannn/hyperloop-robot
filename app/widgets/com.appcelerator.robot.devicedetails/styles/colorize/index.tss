@@ -1,4 +1,6 @@
 "#container": {
     layout: "horizontal",
+    top: 0,
+    contentWidth: Ti.UI.FILL,
     scrollType: "vertical"
 }

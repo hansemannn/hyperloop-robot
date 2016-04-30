@@ -10,12 +10,7 @@
 	selectionStyle: Ti.UI.iOS.ListViewCellSelectionStyle.NONE
 }
 
-".featureOutterContainer": {
-	height: Ti.UI.SIZE
-}
-
 ".featureContainer": {
-	height: Ti.UI.SIZE,
 	backgroundColor: "#fff",
 	borderRadius: 4,
 	top: 15,
