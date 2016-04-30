@@ -1,22 +1,38 @@
+<%
+var sanitizedName = classDefinition.name.replace('$', '.'),
+	fullName = sanitizedName,
+	parts = sanitizedName.split('.'),
+	baseName = parts[parts.length - 1],
+	isInnerClass = (classDefinition.name.indexOf('$') != -1),
+	enclosingClassName,
+	BASE_URL = 'http://developer.android.com/reference/' + classDefinition.name.replace(/\./g, '/').replace('$', '.') + '.html'; // Used to build up API URLs
+-%>
 /**
  * Hyperloop
  * Generated code is Copyright (c) <%= new Date().getFullYear() %> Appcelerator, Inc. and subject to the
  * Appcelerator Platform Subscription agreement.
  *
  * WARNING: This is generated code. Modify at your own risk and without support
+ *
+ * @module <%= sanitizedName %>
  */
 var Hyperloop = require('hyperloop');
 
 <%
-var sanitizedName = classDefinition.name.replace('$', '.'),
-	parts = sanitizedName.split('.'),
-	BASE_URL = 'http://developer.android.com/reference/' + classDefinition.name.replace(/\./g, '/').replace('$', '.') + '.html'; // Used to build up API URLs
-
 // build up the namespace to hang the class off of
-for (var i = 0; i < parts.length - 1; i++) { // don't include last segment: class base name
+if (isInnerClass) {
+	// it's a nested class. Load up the parent, then just hang our class off of that.
+	enclosingClassName = classDefinition.name.slice(0, classDefinition.name.indexOf('$'));
+	sanitizedName = baseName;
+-%>
+var EnclosingClass = require('<%= enclosingClassName %>');
+<%
+} else {
+	for (var i = 0; i < parts.length - 1; i++) { // don't include last segment: class base name
 -%>
 global.<%= parts.slice(0, i + 1).join('.') %> = global.<%= parts.slice(0, i + 1).join('.') %> || {};
 <%
+	}
 }
 -%>
 
@@ -24,7 +40,7 @@ global.<%= parts.slice(0, i + 1).join('.') %> = global.<%= parts.slice(0, i + 1)
  * constructor
  * <%- BASE_URL %>
  **/
-<%= sanitizedName %> = function() {
+<% if (isInnerClass) {-%>var <% } %><%= sanitizedName %> = function() {
 	var result;
 	// Allow the constructor to either invoke the real java constructor, or function as a "wrapping" method that will take
 	// a single argument that is a native hyperloop proxy for this class type and just wraps it in our JS type.
@@ -128,6 +144,28 @@ for (var propertyName in classDefinition.properties) {
 	}
 }
 -%>
+
+<%= sanitizedName %>.prototype.equals = function (other) {
+	if (!this._hasPointer) return null;
+
+	var result = this.$native.callNativeFunction({
+		func: 'equals',
+		instanceMethod: true,
+		args: [other]
+	});
+	return result;
+};
+
+<%= sanitizedName %>.prototype.hashCode = function () {
+	if (!this._hasPointer) return null;
+
+	var result = this.$native.callNativeFunction({
+		func: 'hashCode',
+		instanceMethod: true,
+		args: Array.prototype.slice.call(arguments)
+	});
+	return result;
+};
 
 // export the interface
 module.exports = <%= sanitizedName %>;

@@ -12,7 +12,7 @@ exports.init = init;
 // set this to enforce a ios-min-version
 var IOS_MIN = '7.0';
 // set this to enforce a minimum Titanium SDK
-var TI_MIN = '5.2.0';
+var TI_MIN = '5.4.0';
 // set the iOS SDK minium
 var IOS_SDK_MIN = '9.0';
 
@@ -136,12 +136,11 @@ HyperloopiOSBuilder.prototype.validate = function validate() {
 		process.exit(1);
 	}
 
-	// check for the run-on-main-thread configuration
-	if (!this.builder.tiapp.ios['run-on-main-thread']) {
+	if (!(this.builder.tiapp.properties && this.builder.tiapp.properties.hasOwnProperty('run-on-main-thread') && this.builder.tiapp.properties['run-on-main-thread'].value)) {
 		this.logger.error('You cannot use the Hyperloop compiler without configuring iOS to use main thread execution.');
-		this.logger.error('Add the following to your tiapp.xml <ios> section:');
+		this.logger.error('Add the following to your tiapp.xml <ti:app> section:');
 		this.logger.error('');
-		this.logger.error('	<run-on-main-thread>true</run-on-main-thread>\n');
+		this.logger.error('	<property name="run-on-main-thread" type="bool">true</property>');
 		process.exit(1);
 	}
 
@@ -497,6 +496,7 @@ HyperloopiOSBuilder.prototype.generateSourceFiles = function generateSourceFiles
 				this.frameworks.$metadata.sdkType,
 				this.frameworks.$metadata.sdkPath,
 				this.frameworks.$metadata.minVersion,
+				this.builder.xcodeTargetOS,
 				this.metabase,
 				entry.framework,
 				entry.source,
@@ -527,9 +527,13 @@ HyperloopiOSBuilder.prototype.generateSourceFiles = function generateSourceFiles
  * Generates the symbol reference based on the references from the metabase's parser state.
  */
 HyperloopiOSBuilder.prototype.generateSymbolReference = function generateSymbolReference() {
-	var symbolRefFile = path.join(this.hyperloopBuildDir, 'symbol_references.json');
-	var json = JSON.stringify(this.parserState.getReferences(), null, 2);
 
+	if (!this.parserState) {
+		this.logger.info('Skipping ' + HL + ' generating of symbol references. Empty AST. ');
+		return;
+	}	
+	var symbolRefFile = path.join(this.hyperloopBuildDir, 'symbol_references.json'),
+		json = JSON.stringify(this.parserState.getReferences(), null, 2);
 	if (!fs.existsSync(symbolRefFile) || fs.readFileSync(symbolRefFile).toString() !== json) {
 		this.forceStubGeneration = true;
 		this.logger.trace('Forcing regeneration of wrappers');
@@ -551,6 +555,11 @@ HyperloopiOSBuilder.prototype.compileResources = function compileResources(callb
  * Generates stubs from the metabase.
  */
 HyperloopiOSBuilder.prototype.generateStubs = function generateStubs(callback) {
+
+	if (!this.parserState) {
+		this.logger.info('Skipping ' + HL + ' stub generation. Empty AST.');
+		return callback();
+	}
 	if (!this.forceStubGeneration) {
 		this.logger.debug('Skipping stub generation');
 		return callback();
@@ -922,7 +931,8 @@ HyperloopiOSBuilder.prototype.hookUpdateXcodeProject = function hookUpdateXcodeP
 			xobjs.PBXBuildFile[buildFileUuid] = {
 				isa: 'PBXBuildFile',
 				fileRef: fileRefUuid,
-				fileRef_comment: name
+				fileRef_comment: name,
+				settings: {COMPILER_FLAGS : '"-fobjc-arc"' }
 			};
 			xobjs.PBXBuildFile[buildFileUuid + '_comment'] = name + ' in Sources';
 
@@ -987,7 +997,7 @@ HyperloopiOSBuilder.prototype.hookXcodebuild = function hookXcodebuild(data) {
 		});
 	}
 
-	addParam('GCC_PREPROCESSOR_DEFINITIONS', 'HYPERLOOP=1');
+	addParam('GCC_PREPROCESSOR_DEFINITIONS', '$(inherited) HYPERLOOP=1');
 
 	// inject the params into the xcodebuild args
 	var args = data.args[1];
