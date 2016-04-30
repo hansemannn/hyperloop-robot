@@ -1,11 +1,10 @@
 <Alloy>
 	<Window id="window" title="Drive">
-		<View id="container">
-			<View id="circle"/>
-			<View class="arrow" id="arrowTop" onTouchstart="driveForward" onTouchend="stopDriving" />
-			<View class="arrow" id="arrowRight" onTouchstart="driveRight" onTouchend="stopDriving" />
-			<View class="arrow" id="arrowBottom" onTouchstart="driveBackward" onTouchend="stopDriving" />
-			<View class="arrow" id="arrowLeft" onTouchstart="driveLeft" onTouchend="stopDriving" />
-		</View>
+		<Circle module="controls">
+			<Arrow module="controls" class="arrow" id="arrowTop" rotation="-90" onTouchstart="driveForward" onTouchend="stopDriving" />
+			<Arrow module="controls" class="arrow" id="arrowRight" rotation="0" onTouchstart="driveRight" onTouchend="stopDriving" />
+			<Arrow module="controls" class="arrow" id="arrowBottom" rotation="90" onTouchstart="driveBackward" onTouchend="stopDriving" />
+			<Arrow module="controls" class="arrow" id="arrowLeft" rotation="180" onTouchstart="driveLeft" onTouchend="stopDriving" />			
+		</Circle>
 	</Window>
 </Alloy>
