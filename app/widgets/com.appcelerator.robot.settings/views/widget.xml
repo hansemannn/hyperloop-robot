@@ -1,8 +1,8 @@
 <Alloy>
 	<NavigationWindow id="nav">
-		<Window title="Settings">
+		<Window title="Settings" id="window">
 			<RightNavButton title="Close" onClick="close" />
-			<ListView id="listView" onItemclick="handleAction">
+			<!--<ListView id="listView" onItemclick="handleAction">
 				<ListSection headerTitle="General">
 					<ListItem title="FAQ" itemId="faq" />
 					<ListItem title="License" itemId="license" />
@@ -12,7 +12,7 @@
 					<ListItem title="Environment" itemId="env" />
 					<ListItem title="Reset all devices" itemId="reset" color="red" />
 				</ListSection>
-			</ListView>
+			</ListView>-->
 		</Window>
 	</NavigationWindow>
 </Alloy>

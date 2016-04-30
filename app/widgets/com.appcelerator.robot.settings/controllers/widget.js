@@ -1,15 +1,166 @@
+var UIScreen = require('UIKit/UIScreen'),
+	UIColor = require('UIKit/UIColor'),
+	UITableView = require('UIKit/UITableView'),
+	UITableViewCell = require('UIKit/UITableViewCell'),
+	NSIndexPath = require('Foundation').NSIndexPath,
+	UITableViewStyleGrouped = require('UIKit').UITableViewStyleGrouped,
+	UITableViewCellStyleDefault = require('UIKit').UITableViewCellStyleDefault,
+	UITableViewCellAccessoryDisclosureIndicator = require('UIKit').UITableViewCellAccessoryDisclosureIndicator,
+	dataStructure;
+
 /**
  *  Constructor
  **/
 (function constructor() {
-
+	$.window.add(createTableView());
+	
+	dataStructure = [{
+		title: 'General',
+		items: ['FAQ', 'License', 'Privacy']
+	}, {
+		title: 'Control Center',
+		items: ['Environment', 'Delete all devices']
+	}];
 })();
 
-function handleAction(e) {
-	var action = e.itemId;
+function createTableView() {
+	// Subclass delegate + data source
+	var TableViewDataSourceAndDelegate = defineDataSourceAndDelegate();
 
-	switch(action) {
-	case "reset":
+	// Create + configure tableView
+	var tableView = UITableView.alloc().initWithFrameStyle(UIScreen.mainScreen().bounds, UITableViewStyleGrouped);
+	var dataSourceDelegate = new TableViewDataSourceAndDelegate();
+
+	dataSourceDelegate.numberOfSections = function(tableView) {
+		return dataStructure.length;
+	};
+	
+	dataSourceDelegate.numberOfRows = function(tableView, section) {		
+		return dataStructure[section].items.length;
+	};
+	
+	dataSourceDelegate.titleForHeader = function(tableView, section) {
+		return dataStructure[section].title;
+	};
+	
+	dataSourceDelegate.heightForRow = function(tableView, indexPath) {
+		return 44;
+	};
+	
+	dataSourceDelegate.cellForRow = function(tableView, indexPath) {
+		var cell = tableView.dequeueReusableCellWithIdentifier('hyperloop_cell');
+		if (!cell) {
+			cell = UITableViewCell.alloc().initWithStyleReuseIdentifier(UITableViewCellStyleDefault, 'hyperloop_cell');
+		}
+		
+		cell.textLabel.text = dataStructure[indexPath.section].items[indexPath.row];
+		cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+		
+		if (indexPath.section == 1 &&indexPath.row == 1) {
+			cell.textLabel.textColor = UIColor.redColor();
+		}
+		
+		return cell;
+	};
+
+	dataSourceDelegate.didSelectRowAtIndexPath = function(tableView, indexPath) {
+		handleAction(dataStructure[indexPath.section].items[indexPath.row]);
+		tableView.deselectRowAtIndexPathAnimated(indexPath, true);
+	};
+
+	// Assign delegate + data source
+	tableView.setDelegate(dataSourceDelegate);
+	tableView.setDataSource(dataSourceDelegate);
+	
+	return tableView;
+}
+
+function defineDataSourceAndDelegate() {
+	var TableViewDataSourceAndDelegate = Hyperloop.defineClass('TableViewDataSourceAndDelegate', 'NSObject', ['UITableViewDelegate', 'UITableViewDataSource']);
+
+	TableViewDataSourceAndDelegate.addMethod({
+		selector: 'numberOfSectionsInTableView:',
+		instance: true,
+		arguments: ['UITableView'],
+		returnType: 'long',
+		callback: function (tableView) {
+			if (this.numberOfSections) {
+				return this.numberOfSections(tableView);
+			}
+			return 1;
+		}
+	});
+
+	TableViewDataSourceAndDelegate.addMethod({
+		selector: 'tableView:numberOfRowsInSection:',
+		instance: true,
+		arguments: ['UITableView', 'NSInteger'],
+		returnType: 'long',
+		callback: function (tableView, section) {
+			if (this.numberOfRows) {
+				return this.numberOfRows(tableView, section);
+			}
+			return 1;
+		}
+	});
+
+	TableViewDataSourceAndDelegate.addMethod({
+		selector: 'tableView:titleForHeaderInSection:',
+		instance: true,
+		arguments: ['UITableView', 'long'],
+		returnType: 'NSString',
+		callback: function (tableView, section) {
+			if (this.titleForHeader) {
+				return this.titleForHeader(tableView, section);
+			}
+			return '';
+		}
+	});
+
+	TableViewDataSourceAndDelegate.addMethod({
+		selector: 'tableView:heightForRowAtIndexPath:',
+		instance: true,
+		arguments: ['UITableView', 'NSIndexPath'],
+		returnType: 'CGFloat',
+		callback: function (tableView, indexPath) {
+			if (this.heightForRow) {
+				return this.heightForRow(tableView, indexPath);
+			}
+			return 43;
+		}
+	});
+
+	TableViewDataSourceAndDelegate.addMethod({
+		selector: 'tableView:cellForRowAtIndexPath:',
+		instance: true,
+		arguments: ['UITableView', 'NSIndexPath'],
+		returnType: 'UITableViewCell',
+		callback: function (tableView, indexPath) {
+			if (this.cellForRow) {
+				return this.cellForRow(tableView, indexPath);
+			}
+			throw new Exception('TableViewDataSourceAndDelegate cellForRow(tableView, indexPath) missing');
+		}
+	});
+
+	TableViewDataSourceAndDelegate.addMethod({
+		selector: 'tableView:didSelectRowAtIndexPath:',
+		instance: true,
+		arguments: ['UITableView', 'NSIndexPath'],
+		callback: function (tableView, indexPath) {
+			if (this.didSelectRowAtIndexPath) {
+				this.didSelectRowAtIndexPath(tableView, indexPath);
+			}
+			throw new Exception('TableViewDataSourceAndDelegate didSelectRowAtIndexPath(tableView, indexPath) missing');
+		}
+	});
+	
+	return TableViewDataSourceAndDelegate;
+}
+
+function handleAction(action) {
+	switch(action.toLowerCase()) {
+	case "delete all devices":
 		resetDevices();
 		break;
 	default:
@@ -34,9 +185,9 @@ function resetDevices() {
 				
 				!e.error && reset();
 				
-			//	Ti.API.warn("Success? - " + e.success);
-			//	Ti.API.warn("Error? - " + e.error);
-			//	Ti.API.warn("Code? - " + e.code);
+				//	Ti.API.warn("Success? - " + e.success);
+				//	Ti.API.warn("Error? - " + e.error);
+				//	Ti.API.warn("Code? - " + e.code);
 			}
 		});
 	} else {
