@@ -10,6 +10,8 @@ var devices,
 	devices = Alloy.Collections.instance("device");
 	moment = require("alloy/moment");
     isSearching = false;
+    
+    TiSphero = require("sphero");
 
 	// TODO: Think about start process to update the known device-status on start
 
@@ -59,8 +61,6 @@ function setUI() {
 
 function refreshDevices() {
 	var deviceSearch = Alloy.createWidget("com.appcelerator.robot.devicesearch");
-	deviceSearch.setSphero(TiSphero);
-
 	deviceSearch.open({
 		onFound : setUI
 	});
@@ -96,24 +96,8 @@ function openDetails(e) {
 
     isSearching = true;
 
-	if (Ti.App.getDeployType() == "development") {
-		Ti.API.warn("The Sphero SDK is for devices-only, mocking ...");
-        isSearching = false
-
-		$.nav.openWindow(Alloy.createWidget("com.appcelerator.robot.devicedetails", {
-			nav : $.nav,
-			robot : {
-                getName: function () {return "demo"},
-                disconnect: function () {}
-            }
-		}).getView());
-
-		return;
-	}
-
 	var model = devices.get(e.itemId);
 
-    stopDiscovery();
 	TiSphero.addEventListener("connectionchange", handleDiscovery);
 	TiSphero.startDiscovery();
 }
@@ -151,14 +135,6 @@ function stopDiscovery() {
 function showNotConnectedWarning() {
 	$.alert.show();
 }
-
-exports.setSphero = function(_TiSphero) {
-	TiSphero = _TiSphero;
-
-    if (TiSphero.isDiscovering()) {
-        TiSphero.stopDiscovery();
-    }
-};
 
 exports.open = function() {
 	$.nav.open();

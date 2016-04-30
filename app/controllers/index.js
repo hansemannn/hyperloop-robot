@@ -5,7 +5,7 @@ var devices,
  *  Constructor
  **/
 (function constructor() {
-	TiSphero = Ti.App.deployType != "development" ? require("ti.sphero") : mockSphero();
+	TiSphero = Ti.App.getDeployType() == "development" ? require("sphero") : require("ti.sphero");
 
 	devices = Alloy.Collections.instance("device");
 	devices.fetch({
@@ -30,13 +30,11 @@ function bootApplication() {
 
 function openDeviceSearch() {
 	var search = Alloy.createWidget("com.appcelerator.robot.devicesearch");
-	search.setSphero(TiSphero);
 	search.open();
 }
 
 function openDeviceList() {
 	var list = Alloy.createWidget("com.appcelerator.robot.devicelist");
-	list.setSphero(TiSphero);
 	list.open();
 }
 
@@ -51,19 +49,4 @@ function disconnectDevices() {
 
 function hasDevices() {
 	return devices.models && devices.models.length > 0;
-}
-
-function mockSphero() {
-	return {
-		disconnectAll: function() {
-			Ti.API.warn("Ti.Sphero (mocked): disconnectAll()");
-		},
-		stopDiscovery: function() {
-			Ti.API.warn("Ti.Sphero (mocked): stopDiscovery()");
-		},
-		isDiscovering: function() {
-			Ti.API.warn("Ti.Sphero (mocked): isDiscovering()");
-			return false;
-		}
-	};
 }

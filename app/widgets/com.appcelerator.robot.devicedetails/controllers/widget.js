@@ -12,7 +12,7 @@ var robot,
 })(arguments[0] || {});
 
 function setUI() {
-	$.window.setTitle(robot.getName());
+	$.window.setTitle(robot.name);
 }
 
 function disconnectRobot() {

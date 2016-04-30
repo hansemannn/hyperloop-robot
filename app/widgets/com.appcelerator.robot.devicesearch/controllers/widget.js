@@ -5,8 +5,6 @@ var searchTimeout,
     moment,
     SEARCH_STATE,
     currentSearchState,
-    RKConvenienceRobot,
-    RKRobotDiscoveryAgent,
     TiSphero;
 
 /**
@@ -14,9 +12,8 @@ var searchTimeout,
  **/
 (function constructor() {
 
-	RKConvenienceRobot = require("RobotKit/RKConvenienceRobot");
-    RKRobotDiscoveryAgent = require("RobotKit/RKRobotDiscoveryAgent");
     moment = require("alloy/moment");
+    TiSphero = require("sphero");
 
     SEARCH_STATE = {
         DEFAULT: 0,
@@ -50,7 +47,7 @@ function createRobot(robot) {
     devices.fetch();
 
     foundDevices = devices.where({
-        identifier: robot.getIdentifier()
+        identifier: robot.identifier
     });
 
     if (foundDevices.length == 1) {
@@ -59,8 +56,8 @@ function createRobot(robot) {
         robot.save();
     } else {
         var robot = Alloy.createModel("device", {
-            identifier: robot.getIdentifier(),
-            title: robot.getName(),
+            identifier: robot.identifier,
+            title: robot.name,
             created_at : moment().unix(),
             connected: true
         });
@@ -76,38 +73,18 @@ function createRobot(robot) {
 }
 
 function searchDevices() {
-    if (Ti.App.getDeployType() == "development") {  
-        
-        var devices = Alloy.Collections.instance("device");
-        devices.fetch();
-
-        var foundDevices = devices.where({
-            identifier: "demo"
-        });
-
-        if (foundDevices.length == 0) {
-            var robot = Alloy.createModel("device", {
-                identifier: "demo",
-                title: "Demo",
-                created_at : moment().unix(),
-                connected: true
-            });
-            robot.save();
-        }
-
-        openDeviceList();
-    	return;
-	}
-
 	clearSearchTimeout();
 	showLoader();
 
+    TiSphero.addEventListener("connectionchange", handleDiscovery);
     TiSphero.startDiscovery();
 
 	searchTimeout = setTimeout(function() {
         if (TiSphero.isDiscovering()) {
             TiSphero.stopDiscovery();
         }
+
+        TiSphero.removeEventListener("connectionchange", handleConnectionChange);
 
 		hideLoader();
 		$.alert.show();
@@ -172,7 +149,6 @@ function openDeviceList() {
     TiSphero.disconnectAll();
 
 	var deviceList = Alloy.createWidget("com.appcelerator.robot.devicelist");
-    deviceList.setSphero(TiSphero);
 	deviceList.getView().open();
 }
 
@@ -206,14 +182,4 @@ exports.open = function(args) {
     cb = args.onFound;
 
     openNavWindow();
-};
-
-exports.setSphero = function(_TiSphero) {
-    TiSphero = _TiSphero;
-
-    if (Ti.App.getDeployType() != "development") {
-    	Ti.API.warn(TiSphero);
-        TiSphero.removeEventListener("connectionchange", handleConnectionChange);
-        TiSphero.addEventListener("connectionchange", handleConnectionChange);
-    }
 };

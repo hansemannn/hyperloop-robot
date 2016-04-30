@@ -1,7 +1,7 @@
 <Alloy>
 	<NavigationWindow id="nav">
 		<Window title="My devices">
-			<LeftNavButton systemButton="ADD" onClick="refreshDevices" />
+			<LeftNavButton systemButton="Ti.UI.iOS.SystemButton.ADD" onClick="refreshDevices" />
 			<RightNavButton class="settings" onClick="openSettings" />
 			<AlertDialog id="alert" title="Not connected" message="This device is currently not connected. Please wait until it is successfully connected and try again.">
 				<ButtonNames>
