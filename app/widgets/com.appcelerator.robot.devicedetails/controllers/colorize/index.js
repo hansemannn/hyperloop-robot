@@ -1,10 +1,12 @@
 var UIScreen = require('UIKit/UIScreen'),
-    UICollectionViewFlowLayout = require("UIKit/UICollectionViewFlowLayout"),
-    UIColor = require("UIKit/UIColor"),
-    UICollectionView = require("UIKit/UICollectionView"),
-    UICollectionViewCell = require("UIKit/UICollectionViewCell"),
-    UIEdgeInsetsMake = require("UIKit").UIEdgeInsetsMake,
+    UICollectionViewFlowLayout = require('UIKit/UICollectionViewFlowLayout'),
+    UIView = require('UIKit/UIView'),
+    UIColor = require('UIKit/UIColor'),
+    UICollectionView = require('UIKit/UICollectionView'),
+    UICollectionViewCell = require('UIKit/UICollectionViewCell'),
+    UIEdgeInsetsMake = require('UIKit').UIEdgeInsetsMake,
     CGSizeMake = require('CoreGraphics').CGSizeMake,
+    CGRectMake = require('CoreGraphics').CGRectMake,
     robot;
 
 /**
@@ -17,31 +19,9 @@ var UIScreen = require('UIKit/UIScreen'),
 })(arguments[0] || {});
 
 function createColorGrid() {
+    var colors = [];
+    var numberOfColors = 50;
     var CollectionViewDataSourceAndDelegate = defineDataSourceAndDelegate();
-/*    var colors = [Alloy.CFG.styles.tintColor, 'aqua', 'blue', 'fuchsia','lime', 'maroon',
-                  'navy', 'olive', 'orange', 'purple', 'red', 'silver', 'teal', 'yellow'];
-*/
-
-    var colors = [
-        UIColor.colorWithRedGreenBlueAlpha(201/255,19/255,38/255,1.0), 
-        UIColor.blueColor(), 
-        UIColor.yellowColor()
-    ];
-    
-    var screenRect = UIScreen.mainScreen().bounds;
-    var screenWidth = screenRect.size.width;
-    var cellWidth = screenWidth / 3.0; //Replace the divisor with the column count requirement. Make sure to have it in float.
-    
-    var layout = new UICollectionViewFlowLayout()
-    layout.sectionInset = UIEdgeInsetsMake(0, 0, 0, 0);
-    layout.itemSize = CGSizeMake(cellWidth, cellWidth);
-    layout.minimumLineSpacing = 0;
-    layout.minimumInteritemSpacing = 0;
-         
-    collectionView = UICollectionView.alloc().initWithFrameCollectionViewLayout(screenRect,layout);
-    collectionView.registerClassForCellWithReuseIdentifier(UICollectionViewCell.class(), "Cell");
-    collectionView.backgroundColor = UIColor.clearColor();
-    
     var dataSourceDelegate = new CollectionViewDataSourceAndDelegate();
     
     dataSourceDelegate.numberOfCells = function(collectionView, indexPath) {
@@ -54,7 +34,32 @@ function createColorGrid() {
         
         return cell;
     };
-
+    
+    dataSourceDelegate.didSelectItem = function(collectionView, indexPath) {
+        var cell = collectionView.cellForItemAtIndexPath(indexPath);
+        robot.setLEDColor(cell.backgroundColor);
+    };
+    
+    for (var i = 0; i < 50; i++) {
+        var hue = ((Math.random() * 4294967296) % 256 / 256.0);
+        var saturation = ((Math.random() * 4294967296) % 128 / 256.0) + 0.5;
+        var brightness = ((Math.random() * 4294967296) % 128 / 256.0) + 0.5;
+        colors.push(UIColor.colorWithHueSaturationBrightnessAlpha(hue, saturation, brightness, 1));
+    }
+        
+    var screenRect = UIScreen.mainScreen().bounds;
+    screenRect = CGRectMake(0 , 0, UIScreen.mainScreen().bounds.size.width, UIScreen.mainScreen().bounds.size.height - 64);
+    var cellWidth = screenRect.size.width / 3.0;
+    
+    var layout = new UICollectionViewFlowLayout()
+    layout.sectionInset = UIEdgeInsetsMake(0, 0, 0, 0);
+    layout.itemSize = CGSizeMake(cellWidth, cellWidth);
+    layout.minimumLineSpacing = 0;
+    layout.minimumInteritemSpacing = 0;
+         
+    collectionView = UICollectionView.alloc().initWithFrameCollectionViewLayout(screenRect, layout);
+    collectionView.registerClassForCellWithReuseIdentifier(UICollectionViewCell.class(), "Cell");
+    collectionView.backgroundColor = UIColor.clearColor();
     collectionView.setDataSource(dataSourceDelegate);
     collectionView.setDelegate(dataSourceDelegate);
     
@@ -62,7 +67,7 @@ function createColorGrid() {
 }
 
 function defineDataSourceAndDelegate() {
-    var del = Hyperloop.defineClass('CollectionViewDataSourceAndDelegate', 'NSObject', ['UICollectionViewDataSource', 'UICollectionViewDelegateFlowLayout']);
+    var del = Hyperloop.defineClass('CollectionViewDataSourceAndDelegate', 'NSObject', ['UICollectionViewDataSource', 'UICollectionViewDelegate', 'UICollectionViewDelegateFlowLayout']);
 
 	del.addMethod({
 		selector: 'collectionView:numberOfItemsInSection:',
@@ -89,6 +94,17 @@ function defineDataSourceAndDelegate() {
 			return null;
 		}
 	});
+        
+    del.addMethod({
+        selector: 'collectionView:didSelectItemAtIndexPath:',
+        instance: true,
+        arguments: ['UICollectionView', 'NSIndexPath'],
+        callback: function (collectionView, indexPath) {
+            if (this.didSelectItem) {
+                this.didSelectItem(collectionView, indexPath);
+            }
+        }
+    });
     
     return del;
 }

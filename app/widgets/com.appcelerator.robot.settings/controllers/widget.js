@@ -169,13 +169,23 @@ function defineDataSourceAndDelegate() {
 }
 
 function handleAction(action) {
-	switch(action.toLowerCase()) {
+	switch(action) {
+	case "faq":
+	case "license":
+	case "privacy":
+		openWebView(action);
+		break;
 	case "delete all devices":
 		resetDevices();
 		break;
 	default:
 		Ti.API.warn("Unhandled action: " + action);
 	}	
+}
+
+function openWebView(identifier) {
+	var controller = Widget.createController("webview", {identifier: identifier});
+	$.nav.openWindow(controller.getView());
 }
 
 function resetDevices() {
