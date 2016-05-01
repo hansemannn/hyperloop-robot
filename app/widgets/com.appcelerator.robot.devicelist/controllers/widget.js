@@ -11,7 +11,7 @@ var devices,
 	moment = require("alloy/moment");
     isSearching = false;
     
-    TiSphero = require("sphero");
+    TiSphero = require("ti.sphero");
 
 	// TODO: Think about start process to update the known device-status on start
 

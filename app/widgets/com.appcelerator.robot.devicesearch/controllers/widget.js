@@ -13,7 +13,7 @@ var searchTimeout,
 (function constructor() {
 
     moment = require("alloy/moment");
-    TiSphero = require("sphero");
+    TiSphero = require("ti.sphero");
 
     SEARCH_STATE = {
         DEFAULT: 0,

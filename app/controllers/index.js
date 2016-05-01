@@ -1,11 +1,11 @@
 var devices,
 	TiSphero;
-
+	
 /**
  *  Constructor
  **/
 (function constructor() {
-	TiSphero = Ti.App.getDeployType() == "development" ? require("sphero") : require("ti.sphero");
+	TiSphero = require("ti.sphero")
 
 	devices = Alloy.Collections.instance("device");
 	devices.fetch({
@@ -39,10 +39,6 @@ function openDeviceList() {
 }
 
 function disconnectDevices() {
-	/*if (ENV_DEV) {
-		return;
-	}*/
-
 	TiSphero.disconnectAll();
 	TiSphero.stopDiscovery();
 }

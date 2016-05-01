@@ -14,7 +14,7 @@ module.exports = {
 				 * included here to further customize the xcode build
 				 */
 				flags: {
-				//	OTHER_LDFLAGS: '$(inherited) -ObjC -lc++'
+					FRAMEWORK_SEARCH_PATHS: '$(inherited) /Users/hans/Documents/Apps/HL-Robot/src'
 				},
 				/**
 				 * this sample doesn't use StoreKit but this demonstrates
@@ -33,12 +33,12 @@ module.exports = {
 			 * where the files are located
 			 */
 			thirdparty: {
-				'RobotKit': {
+				/*'RobotKit': {
 					// these can be an array or string
 					source: ['src'],
 					header: 'src',
 					resource: 'src'
-				}
+				}*/
 			}
 		}
 	}

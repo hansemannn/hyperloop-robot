@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<resources>
+	<string name="colorize">Colorize</string>
+	<string name="drive">Drive</string>
+	<string name="routes">Routes</string>
+	<string name="execute">Execute</string>
+	<string name="my_devices">My devices</string>
+	<string name="not_connected">Not connected</string>
+	<string name="not_connected_message">This device is currently not connected. Please wait until it is successfully connected and try again.</string>
+	<string name="add_robot">Add Robot</string>
+	<string name="cancel">Cancel</string>
+	<string name="manual_search_intro">You can add a Sphero Robot manually by looking up it's IP-address and enter it in the below form.</string>
+	<string name="connect">Connect</string>
+	<string name="ip_address">IP address (required)</string>
+	<string name="name">Name (optional)</string>
+	<string name="search_devices">Search devices</string>
+	<string name="search_devices_message">Searching for devices ...</string>
+	<string name="try_again">Try again</string>
+	<string name="add_manually">Add manually</string>
+	<string name="settings">Settings</string>
+	<string name="close">Close</string>
+	<string name="added">Added</string>
+	<string name="connected">Connected</string>
+	<string name="not_connected">Not connected</string>
+	<string name="warning">Warning</string>
+	<string name="warning_not_connected">You are currently connectiong to a device, please wait.</string>
+	<string name="general">General</string>
+	<string name="faq">FAQ</string>
+	<string name="license">License</string>
+	<string name="privacy">Privacy</string>
+	<string name="control_center">Control Center</string>
+	<string name="environment">Environment</string>
+	<string name="delete_all_devices">Delete all devices</string>
+	<string name="connecting">Connecting ...</string>
+	<string name="robot_connected">Robot connected!</string>
+</resources>

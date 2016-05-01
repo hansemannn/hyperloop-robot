@@ -1,6 +1,0 @@
-use_frameworks!
-platform :ios, '8.0'
-
-target 'Ti.Robot' do
-#  pod 'HLRobotKit', :git => 'https://github.com/hansemannn/HLRobotKit.git'
-end
