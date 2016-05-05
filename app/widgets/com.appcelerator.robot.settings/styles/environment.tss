@@ -1,0 +1,7 @@
+
+"#status": {
+    font: {
+        fontSize: 20   
+    },
+    color: "#fff"
+}

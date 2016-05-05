@@ -33,4 +33,6 @@
 	<string name="delete_all_devices">Delete all devices</string>
 	<string name="connecting">Connecting ...</string>
 	<string name="robot_connected">Robot connected!</string>
+	<string name="environment">Environment</string>
+	<string name="checking_environment">Checking environment ...</string>
 </resources>

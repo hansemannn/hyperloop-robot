@@ -175,12 +175,20 @@ function handleAction(action) {
 	case "privacy":
 		openWebView(action);
 		break;
+	case "environment":
+		openEnvironmentCheck();
+		break;
 	case "delete all devices":
 		resetDevices();
 		break;
 	default:
 		Ti.API.warn("Unhandled action: " + action);
 	}	
+}
+
+function openEnvironmentCheck() {
+	var controller = Widget.createController("environment");
+	$.nav.openWindow(controller.getView());
 }
 
 function openWebView(identifier) {

@@ -1,0 +1,5 @@
+<Alloy>
+    <Window titleid="environment" onOpen="checkEnvironment">
+        <Label id="status" textid="checking_environment" />
+    </Window>
+</Alloy>>
