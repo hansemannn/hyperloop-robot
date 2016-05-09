@@ -106,7 +106,7 @@ function handleDialogClick(e) {
 		openAddManuallyView();
 		break;
 	default:
-		Ti.API.error("Unkwnon action selected");
+		Ti.API.error("Unknown action selected");
 	}
 }
 
