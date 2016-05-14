@@ -129,7 +129,7 @@ function _getDateFormatterWithLocale(locale) {
  @param {String} str The string to slugify
  @return The slugified String
  */
-function slugify = function(str) {
+function slugify(str) {
 	str = str.replace(/^\s+|\s+$/g, '');
 	// trim
 	str = str.toLowerCase();
@@ -155,7 +155,7 @@ function slugify = function(str) {
  @param {Number} degrees The numer of degrees.
  @return The converted number of radians.
  */
-function DEGREES_TO_RADIANS = function(degrees) {
+function DEGREES_TO_RADIANS(degrees) {
 	return (Number(degrees) / 180.0 * Math.PI);
 };
 
