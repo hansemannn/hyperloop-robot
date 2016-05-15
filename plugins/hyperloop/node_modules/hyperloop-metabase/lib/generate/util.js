@@ -200,7 +200,7 @@ function getResultWrapper (state, json, obj, instance) {
 				return newPrefix(state, name);
 			} else {
 				if (json.typedefs) {
-					typedef = json.typedefs[cls];	
+					typedef = json.typedefs[cls];
 				}
 				if (typedef) {
 					return getResultWrapper(state, json, typedef, instance);
@@ -600,7 +600,7 @@ function getObjCReturnResult (value, name, returns, asPointer) {
 }
 
 function generateImport (name, fp) {
-	return '\t$imports.' + name + ' = require(\'hyperloop/' + fp + '\');';
+	return '\t$imports.' + name + ' = require(\'hyperloop/' + fp.toLowerCase() + '\');';
 }
 
 function makeImports (json, imports) {

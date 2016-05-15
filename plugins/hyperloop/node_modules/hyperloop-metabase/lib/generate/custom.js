@@ -55,7 +55,8 @@ ParserState.prototype.isSetterPropertyReferenced = function (prop) {
 
 ParserState.prototype.isFunctionReferenced = function (prop) {
 	if (!this.state.References) { return true; } // for unit testing
-	return this.state.References && this.state.References.functions && this.state.References.functions[prop];
+	return this.state.References && this.state.References.functions && this.state.References.functions[prop] ||
+		this.isGetterPropertyReferenced(prop);
 };
 
 ParserState.prototype.getReferences = function () {
@@ -688,6 +689,16 @@ function toJSObject (ref, node, def) {
 			}
 			case 'FunctionExpression': {
 				return node;
+			}
+			case 'UnaryExpression': {
+				var op = node.operator;
+				var right = toJSObject(ref, node.argument);
+				switch (op) {
+					case '!': {
+						return !+right;
+					}
+				}
+				return eval (op + right);
 			}
 		}
 		throw new JSParseError("not sure what to do with this node", node);
