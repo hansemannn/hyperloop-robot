@@ -15,7 +15,7 @@ var RKRobotDiscoveryAgent = require("RobotKit/RKRobotDiscoveryAgent"),
 // -- Private API's
 
 var events = [];
-var isSimulator = true//(Ti.App.getDeployType() == "development");
+var isSimulator = Ti.App.getDeployType() == "development";
 
 /**
  * Robot connection process has started.
@@ -116,11 +116,19 @@ function fireEvent(notification) {
     _.each(_.where(events, {
         name: "connectionchange"
     }), function(event) {
-        event.cb({
-            success: notification.type != RKRobotFailedConnect,
-            status: notification.type,
-            robot: new Robot(RKConvenienceRobot.convenienceWithRobot(notification.robot))
-        });
+        if (isSimulator) {
+            event.cb({
+                success: true,
+                status: CONNECTION_STATUS_ONLINE,
+                robot: new Robot()
+            });
+        } else {
+            event.cb({
+                success: notification.type != RKRobotFailedConnect,
+                status: notification.type,
+                robot: new Robot(RKConvenienceRobot.convenienceWithRobot(notification.robot))
+            });            
+        }
     });
 }
 
@@ -132,6 +140,9 @@ function fireEvent(notification) {
 exports.startDiscovery = function() {
     if (isSimulator) {
         log("info", "Start discovery ...");
+        setTimeout(function() {
+            fireEvent({});
+        },1000);
     } else {
         RKRobotDiscoveryAgent.sharedAgent().startDiscovery();
     }
@@ -142,7 +153,7 @@ exports.startDiscovery = function() {
  */
 exports.stopDiscovery = function() {
     if (isSimulator) {
-        log("info", "Start discovery ...");
+        log("info", "Stop discovery ...");
     } else {
         RKRobotDiscoveryAgent.sharedAgent().stopDiscovery();
     }

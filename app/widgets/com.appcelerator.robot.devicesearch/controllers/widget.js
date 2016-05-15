@@ -26,7 +26,7 @@ var searchTimeout,
 
 function handleDiscovery(e) {
     clearSearchTimeout();
-
+    
     if (e.status == TiSphero.CONNECTION_STATUS_CONNECTING) {
         $.loaderText.setTextid("connecting");
     } else if (e.status == TiSphero.CONNECTION_STATUS_ONLINE) {
@@ -35,6 +35,7 @@ function handleDiscovery(e) {
             createRobot(e.robot);
         }, 500);
     } else {
+        alert("nicht gefunden: "+e.status);
         // hideLoader();
         // $.alert.show();
     }
@@ -47,7 +48,7 @@ function createRobot(robot) {
     devices.fetch();
 
     foundDevices = devices.where({
-        identifier: robot.identifier
+        identifier: robot.getIdentifier()
     });
 
     if (foundDevices.length == 1) {
@@ -56,8 +57,8 @@ function createRobot(robot) {
         robot.save();
     } else {
         var robot = Alloy.createModel("device", {
-            identifier: robot.identifier,
-            title: robot.name,
+            identifier: robot.getIdentifier(),
+            title: robot.getName(),
             created_at : moment().unix(),
             connected: true
         });
@@ -84,7 +85,7 @@ function searchDevices() {
             TiSphero.stopDiscovery();
         }
 
-        TiSphero.removeEventListener("connectionchange", handleConnectionChange);
+        TiSphero.removeEventListener("connectionchange", handleDiscovery);
 
 		hideLoader();
 		$.alert.show();

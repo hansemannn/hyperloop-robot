@@ -1,4 +1,5 @@
 var UIScreen = require('UIKit/UIScreen'),
+    UIColor = require('UIKit/UIColor'),
     NSURLRequest = require('Foundation/NSURLRequest'),
     NSURL = require('Foundation/NSURL'),
     WKWebView = require("WebKit/WKWebView"),
@@ -29,6 +30,8 @@ function createWebView() {
     };
     
     var web = WKWebView.alloc().initWithFrame(UIScreen.mainScreen().bounds);
+    web.setBackgroundColor(UIColor.clearColor());
+    web.setOpaque(false);
     web.setNavigationDelegate(delegate);
     web.loadRequest(NSURLRequest.alloc().initWithURL(NSURL.alloc().initWithString(url)));
     

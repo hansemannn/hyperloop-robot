@@ -7,14 +7,16 @@ var UIScreen = require('UIKit/UIScreen'),
 	UITableViewStyleGrouped = require('UIKit').UITableViewStyleGrouped,
 	UITableViewCellStyleDefault = require('UIKit').UITableViewCellStyleDefault,
 	UITableViewCellAccessoryDisclosureIndicator = require('UIKit').UITableViewCellAccessoryDisclosureIndicator,
-	dataStructure;
+	dataStructure,
+	onDeviceChange;
 
 /**
  *  Constructor
  **/
-(function constructor() {
+(function constructor(args) {
 	$.window.add(createTableView());
 	
+	onDeviceChange = args.onDeviceChange;
 	dataStructure = [{
 		title: 'general',
 		items: ['faq', 'license', 'privacy']
@@ -22,7 +24,7 @@ var UIScreen = require('UIKit/UIScreen'),
 		title: 'control_center',
 		items: ['environment', 'delete_all_devices']
 	}];
-})();
+})(arguments[0] || {});
 
 function createTableView() {
 	// Subclass delegate + data source
@@ -178,7 +180,7 @@ function handleAction(action) {
 	case "environment":
 		openEnvironmentCheck();
 		break;
-	case "delete all devices":
+	case "delete_all_devices":
 		resetDevices();
 		break;
 	default:
@@ -201,6 +203,7 @@ function resetDevices() {
 	function reset() {
 		var devices = Alloy.Collections.instance("device");
 		devices.destroyAll();
+		onDeviceChange();
 	}
 	
 	var touchID = require("ti.touchid");

@@ -1,11 +1,13 @@
 "use strict";
 
+var isSimulator = Ti.App.getDeployType() == "development";
+
 /**
  * Managing robot operations.
  * @param {RKConvenienceRobot} robot The robot to manage.
  */
 var Robot = function(robot) {
-    this.robot = robot;
+    this.robot = robot || {};
 };
 
 /**
@@ -14,14 +16,22 @@ var Robot = function(robot) {
  * @param {Number} velocity The velocity.
  */
 Robot.prototype.startDrivingWithHeadingAndVelocity = function(heading, velocity) {
-    this.robot.startDrivingWithHeadingAndVelocity(heading, velocity);
+    if (isSimulator) {
+        Ti.API.warn("Start driving with heading = " + heading + " and velocity = " + velocity);
+    } else {
+        this.robot.startDrivingWithHeadingAndVelocity(heading, velocity);
+    }
 };
 
 /**
  * Stops an existing driving sequence.
  */
 Robot.prototype.stopDriving = function() {
-    this.robot.stopDriving();
+    if (isSimulator) {
+        Ti.API.warn("Stop driving");
+    } else {
+        this.robot.stopDriving();
+    }
 };
 
 /**
@@ -29,6 +39,12 @@ Robot.prototype.stopDriving = function() {
  * @param {UIColor} color The desired LED color.
  */
 Robot.prototype.setLEDColor = function(color) {
+    
+    if (isSimulator) {
+        Ti.API.warn("Set LED Color = " + color);
+        return;
+    }
+    
     var nativeColor = color.CGColor();
 
     if (CGColorGetNumberOfComponents(nativeColor) == 4) {
@@ -64,54 +80,82 @@ Robot.prototype.resetHeading = function() {
  * Note: This will trigger a new `connectionchange` event. 
  */
 Robot.prototype.disconnect = function() {
-    this.robot.disconnect();
+    if (isSimulator) {
+        Ti.API.warn("Disconnect robot");
+    } else {
+        this.robot.disconnect();
+    }   
 };
 
 /**
  * Returns the robot name (e.g. "Sphero").
  * @return {String} name
  */
-Robot.prototype.name = function() {
-    return this.robot && this.robot.name;
+Robot.prototype.getName = function() {
+    if (isSimulator) {
+        return "Sphero Test";
+    } else {
+        return this.robot.name;
+    }
 }
 
 /**
  * Returns the robot identifier (e.g. sphero-bb8).
  */
-Robot.prototype.identifier = function() {
-    return this.robot && this.robot.identifier;
+Robot.prototype.getIdentifier = function() {
+    if (isSimulator) {
+        return "sphero-test-device";
+    } else {
+        return this.robot.identifier;
+    }
 }
 
 /**
  * Returns the robot serial number (e.g. L48-1516-2342).
  * @return {String} serialNumber
  */
-Robot.prototype.serialNumber = function() {
-    return this.robot && this.robot.serialNumber;
+Robot.prototype.getSerialNumber = function() {
+    if (isSimulator) {
+        return "4815-1623-42";
+    } else {
+        return this.robot.serialNumber;
+    }
 }
 
 /**
  * Returns whether or not the robot is currently online.
  * @return {Boolean} online
  */
-Robot.prototype.online  = function() {
-    return this.robot && this.robot.isOnline();
+Robot.prototype.isOnline  = function() {
+    if (isSimulator) {
+        return true;
+    } else {
+        return this.robot.isOnline();
+    }
 }
 
 /**
  * Returns whether or not the robot is currently connected.
  * @return {Boolean} connected
  */
-Robot.prototype.connected = function() {
-    return this.robot && this.robot.isConnected();
+Robot.prototype.isConnected = function() {
+    if (isSimulator) {
+        return true;
+    } else {
+        return this.robot.isConnected();
+    }
 }
 
 /**
  * Returns the current robot heading.
  * @return {Number} currentHeading
  */
-Robot.prototype.currentHeading  = function() {
-    return this.robot && this.robot.currentHeading;
+Robot.prototype.getCurrentHeading  = function() {
+    if (isSimulator) {
+        return 0;
+    } else {
+        return this.robot.currentHeading;
+    }
 }
 
 /**

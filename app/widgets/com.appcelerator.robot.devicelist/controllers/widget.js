@@ -19,7 +19,6 @@ var devices,
 })();
 
 function setUI() {
-
 	function configureCells() {
 		var cells = [];
 
@@ -53,7 +52,6 @@ function setUI() {
 		$.listSection.setItems(cells);
 	}
 
-
 	devices.fetch({
 		success : configureCells
 	});
@@ -67,7 +65,10 @@ function refreshDevices() {
 }
 
 function openSettings() {
-	Alloy.createWidget("com.appcelerator.robot.settings").getView().open({
+	var settings = Alloy.createWidget("com.appcelerator.robot.settings", {
+        onDeviceChange: setUI
+    });
+    settings.getView().open({
 		modal : true
 	});
 }
