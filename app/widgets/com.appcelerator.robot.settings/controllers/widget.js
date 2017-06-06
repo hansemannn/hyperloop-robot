@@ -31,8 +31,8 @@ function createTableView() {
 	var TableViewDataSourceAndDelegate = defineDataSourceAndDelegate();
 
 	// Create + configure tableView
-	var tableView = UITableView.alloc().initWithFrameStyle(UIScreen.mainScreen().bounds, UITableViewStyleGrouped);
-	tableView.setBackgroundColor(UIColor.clearColor());
+	var tableView = UITableView.alloc().initWithFrameStyle(UIScreen.mainScreen.bounds, UITableViewStyleGrouped);
+	tableView.setBackgroundColor(UIColor.clearColor);
 	tableView.setSeparatorColor(UIColor.colorWithRedGreenBlueAlpha(63/255, 63/255, 63/255, 1.0));
 
 	var dataSourceDelegate = new TableViewDataSourceAndDelegate();
@@ -68,9 +68,9 @@ function createTableView() {
 		cell.selectedBackgroundView = selectionView;
 		
 		if (indexPath.section == 1 && indexPath.row == 1) {
-			cell.textLabel.textColor = UIColor.redColor();
+			cell.textLabel.textColor = UIColor.redColor;
 		} else {
-			cell.textLabel.textColor = UIColor.whiteColor();
+			cell.textLabel.textColor = UIColor.whiteColor;
 		}
 		
 		return cell;

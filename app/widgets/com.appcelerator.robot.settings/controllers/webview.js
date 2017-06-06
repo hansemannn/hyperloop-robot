@@ -29,8 +29,8 @@ function createWebView() {
         $.window.setRightNavButton(null);
     };
     
-    var web = WKWebView.alloc().initWithFrame(UIScreen.mainScreen().bounds);
-    web.setBackgroundColor(UIColor.clearColor());
+    var web = WKWebView.alloc().initWithFrame(UIScreen.mainScreen.bounds);
+    web.setBackgroundColor(UIColor.clearColor);
     web.setOpaque(false);
     web.setNavigationDelegate(delegate);
     web.loadRequest(NSURLRequest.alloc().initWithURL(NSURL.alloc().initWithString(url)));

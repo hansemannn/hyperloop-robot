@@ -21,7 +21,7 @@ var UIColor = require("UIKit/UIColor"),
  */
 function webColorNamed(colorName) {
     if (!String(colorName)) {
-        return UIColor.clearColor();
+        return UIColor.clearColor;
     }
 
     colorName = colorName.trim().toLowerCase();
@@ -45,7 +45,7 @@ function webColorNamed(colorName) {
     if (result) {
         colorLookup[colorName] = result;
     } else {
-        return UIColor.clearColor();
+        return UIColor.clearColor;
     }
 
     return result;
@@ -121,26 +121,26 @@ function isDarkColor(color) {
 };
 
 function generateColorLookup() {
-    var white = UIColor.whiteColor();
-    var black = UIColor.blackColor();
+    var white = UIColor.whiteColor;
+    var black = UIColor.blackColor;
 
     return {
         "black": black,
-        "gray": UIColor.grayColor(),
-        "darkgray": UIColor.darkGrayColor(),
-        "lightgray": UIColor.lightGrayColor(),
+        "gray": UIColor.grayColor,
+        "darkgray": UIColor.darkGrayColor,
+        "lightgray": UIColor.lightGrayColor,
         "white": white,
-        "red": UIColor.redColor(),
-        "green": UIColor.greenColor(),
-        "blue": UIColor.blueColor(),
-        "cyan": UIColor.cyanColor(),
-        "yellow": UIColor.yellowColor(),
-        "magenta": UIColor.magentaColor(),
-        "orange": UIColor.orangeColor(),
-        "purple": UIColor.purpleColor(),
-        "brown": UIColor.brownColor(),
-        "transparent": UIColor.clearColor(),
-        "stripped": UIColor.groupTableViewBackgroundColor(),
+        "red": UIColor.redColor,
+        "green": UIColor.greenColor,
+        "blue": UIColor.blueColor,
+        "cyan": UIColor.cyanColor,
+        "yellow": UIColor.yellowColor,
+        "magenta": UIColor.magentaColor,
+        "orange": UIColor.orangeColor,
+        "purple": UIColor.purpleColor,
+        "brown": UIColor.brownColor,
+        "transparent": UIColor.clearColor,
+        "stripped": UIColor.groupTableViewBackgroundColor,
         "aqua": colorForHex("0ff"),
         "fuchsia": colorForHex("f0f"),
         "lime": colorForHex("0f0"),
@@ -159,7 +159,7 @@ function generateColorLookup() {
         "000000": black,
         "00000000": black,
     };
-};
+}
 
 function RGBACOLOR(r, g, b, a) {
     return UIColor.colorWithRedGreenBlueAlpha(r, g, b, a);
