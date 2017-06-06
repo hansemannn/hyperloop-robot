@@ -14,16 +14,8 @@ module.exports = {
 				 * included here to further customize the xcode build
 				 */
 				flags: {
-					FRAMEWORK_SEARCH_PATHS: '$(inherited) /Users/hans/Documents/Apps/HL-Robot/src'
-				},
-				/**
-				 * this sample doesn't use StoreKit but this demonstrates
-				 * how you can bring in frameworks explicitly. Hyperloop
-				 * will automatically determine the required frameworks
-				 * but in case you want to force a specific version, you can
-				 * include it here
-				 */
-				frameworks: []
+					FRAMEWORK_SEARCH_PATHS: '$(inherited) ../../src'
+				}
 			},
 			/**
 			 * optionally, you can bring in third-party or first-party libraries,
@@ -33,12 +25,11 @@ module.exports = {
 			 * where the files are located
 			 */
 			thirdparty: {
-				/*'RobotKit': {
-					// these can be an array or string
+				'RobotKit': {
 					source: ['src'],
 					header: 'src',
 					resource: 'src'
-				}*/
+				}
 			}
 		}
 	}
