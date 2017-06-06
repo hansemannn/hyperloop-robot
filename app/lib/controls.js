@@ -4,7 +4,7 @@ var UIView = require('UIKit/UIView'),
 	CAShapeLayer = require('QuartzCore/CAShapeLayer'),
 	CGPointMake = require('CoreGraphics').CGPointMake,
 	CGRectMake = require('CoreGraphics').CGRectMake,
-	Utils = require('utils');
+	Utils = require('./utils');
 
 function bubble() {
 	// Bubbles to parent view
@@ -17,7 +17,7 @@ function createWrapper(options) {
 exports.createArrow = function (options) {
 	var wrapper = createWrapper(options);
 	wrapper.setTransform(Ti.UI.create2DMatrix().rotate(options.rotation || 0));
-	
+
 	var view = UIView.cast(wrapper);
 
 	var path = UIBezierPath.bezierPath();
@@ -28,19 +28,19 @@ exports.createArrow = function (options) {
 	var shapeLayer = CAShapeLayer.layer();
 	shapeLayer.path = path.CGPath;
 	shapeLayer.strokeColor = UIColor.colorWithRedGreenBlueAlpha(1, 1, 1, 1).CGColor;
-	shapeLayer.fillColor = UIColor.clearColor().CGColor;
+	shapeLayer.fillColor = UIColor.clearColor.CGColor;
 	shapeLayer.lineWidth = 2;
 	shapeLayer.strokeStart = 0.0;
 	shapeLayer.strokeEnd = 1.0;
-	
+
 	view.layer.addSublayer(shapeLayer);
 	wrapper.add(view);
-		
+
 	return wrapper;
 }
 
 exports.createCircle = function(options) {
-	var wrapper = createWrapper(options);	
+	var wrapper = createWrapper(options);
 	var view = UIView.cast(wrapper);
 
 	var centerPoint = CGPointMake(150, 150);
@@ -49,18 +49,18 @@ exports.createCircle = function(options) {
 	var radius = 145;
 
 	var path = UIBezierPath.bezierPath();
-	path.addArcWithCenterRadiusStartAngleEndAngleClockwise(centerPoint, radius, Utils.DEGREES_TO_RADIANS(startAngle), Utils.DEGREES_TO_RADIANS(endAngle), true);
+	path.addArcWithCenterRadiusStartAngleEndAngleClockwise(centerPoint, radius, Utils.degreesToRadians(startAngle), Utils.degreesToRadians(endAngle), true);
 
 	var shapeLayer = CAShapeLayer.layer();
 	shapeLayer.path = path.CGPath;
 	shapeLayer.strokeColor = UIColor.colorWithRedGreenBlueAlpha(1, 1, 1, 1).CGColor;
-	shapeLayer.fillColor = UIColor.clearColor().CGColor;
+	shapeLayer.fillColor = UIColor.clearColor.CGColor;
 	shapeLayer.lineWidth = 2;
 	shapeLayer.strokeStart = 0.0;
 	shapeLayer.strokeEnd = 1.0;
-	
+
 	view.layer.addSublayer(shapeLayer);
 	wrapper.add(view);
-	
+
 	return wrapper;
 }

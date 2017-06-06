@@ -4,12 +4,13 @@
 
 var RKRobotDiscoveryAgent = require("RobotKit/RKRobotDiscoveryAgent"),
     RKConvenienceRobot = require("RobotKit/RKConvenienceRobot"),
-    RKRobotConnecting = 10,//require("RobotCommandKit/RKRobotNotification").RKRobotConnecting,
-    RKRobotConnected = 20,//require("RobotCommandKit/RKRobotNotification").RKRobotConnected,
-    RKRobotOnline = 30,//require("RobotCommandKit/RKRobotNotification").RKRobotOnline,
-    RKRobotOffline = 40,//require("RobotCommandKit/RKRobotNotification").RKRobotOffline,
-    RKRobotDisconnected = 50,//require("RobotCommandKit/RKRobotNotification").RKRobotDisconnected,
-    RKRobotFailedConnect = 60,//require("RobotCommandKit/RKRobotNotification").RKRobotFailedConnect,
+    RKRobotNotification = require("RobotKit/RKRobotNotification"),
+    RKRobotConnecting = RKRobotNotification.RKRobotConnecting,
+    RKRobotConnected = RKRobotNotification.RKRobotConnected,
+    RKRobotOnline = RKRobotNotification.RKRobotOnline,
+    RKRobotOffline = RKRobotNotification.RKRobotOffline,
+    RKRobotDisconnected = RKRobotNotification.RKRobotDisconnected,
+    RKRobotFailedConnect = RKRobotNotification.RKRobotFailedConnect,
     Robot = require("robot");
 
 // -- Private API's
@@ -34,7 +35,7 @@ var CONNECTION_STATUS_CONNECTED = RKRobotConnected;
 var CONNECTION_STATUS_ONLINE = RKRobotOnline;
 
 /**
- * Robot main process is offline, but the radio is still connected. 
+ * Robot main process is offline, but the radio is still connected.
  * Only available in BLE Robots.
  */
 var CONNECTION_STATUS_OFFLINE = RKRobotOffline;
@@ -57,7 +58,7 @@ var CONNECTION_STATUS_FAILED_CONNECT = RKRobotFailedConnect;
         log("info", "Initializing module ...");
     } else {
         var RKSubclass = Hyperloop.defineClass("RKSubclass", "NSObject");
-        
+
         RKSubclass.addMethod({
         	selector: 'onConnectionChange:',
         	instance: true,
@@ -66,14 +67,14 @@ var CONNECTION_STATUS_FAILED_CONNECT = RKRobotFailedConnect;
         		handleRobotStateChangeNotification(notification);
         	}
         });
-        
-        var RKSubclassInstance = new RKSubclass();    
+
+        var RKSubclassInstance = new RKSubclass();
         RKRobotDiscoveryAgent.sharedAgent().addNotificationObserverSelector(RKSubclassInstance, "onConnectionChange");
-    }   
+    }
 })();
 
 /**
- * Handles a new notification being sent from the `RobotKit` framework 
+ * Handles a new notification being sent from the `RobotKit` framework
  * and sends out a Javascript event to the client.
  * @param {NSNotification} notification The notification.
  */
@@ -127,7 +128,7 @@ function fireEvent(notification) {
                 success: notification.type != RKRobotFailedConnect,
                 status: notification.type,
                 robot: new Robot(RKConvenienceRobot.convenienceWithRobot(notification.robot))
-            });            
+            });
         }
     });
 }

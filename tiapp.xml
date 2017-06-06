@@ -60,7 +60,7 @@
         <target device="android">false</target>
         <target device="mobileweb">false</target>
     </deployment-targets>
-    <sdk-version>5.4.0.GA</sdk-version>
+    <sdk-version>6.1.0.GA</sdk-version>
     <plugins>
         <plugin version="1.0">ti.alloy</plugin>
         <plugin>hyperloop</plugin>

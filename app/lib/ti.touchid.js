@@ -28,7 +28,7 @@ var LocalAuthentication = require('LocalAuthentication/LocalAuthentication');
 var context = new LAContext();
 
 function isSupported() {
-	var currentOSSupported = UIDevice.currentDevice().systemVersion.compareOptions("8.0", NSNumericSearch) != NSOrderedAscending;
+	var currentOSSupported = UIDevice.currentDevice.systemVersion.compareOptions("8.0", NSNumericSearch) != NSOrderedAscending;
 	var touchIDSupported = context.canEvaluatePolicyError(LocalAuthentication.LAPolicyDeviceOwnerAuthenticationWithBiometrics);
 
 	return currentOSSupported && touchIDSupported;

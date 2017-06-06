@@ -18,7 +18,7 @@ var WebColor = require("webcolor"),
 function UTCDateForDate(date, locale) {
 
     // TODO: Use ENSURE_TYPE(date, NSDate)
-    if (!date.isKindOfClass(NSDate.class())) {
+    if (!date.isKindOfClass("NSDate")) {
         Ti.API.error("The 'data' argument needs to be a NSDate");
         return;
     }
@@ -97,7 +97,7 @@ function isIOSXOrGreater() {
  @return `true` if the current OS version is equal to or greater than the input, `false` otherwise.
  */
 function isiOSGreaterOrEqualTo(version) {
-    return UIDevice.currentDevice().systemVersion.compareOptions(version, NSNumericSearch) != NSOrderedAscending;
+    return UIDevice.currentDevice.systemVersion.compareOptions(version, NSNumericSearch) != NSOrderedAscending;
 }
 
 /**
@@ -148,16 +148,16 @@ function slugify(str) {
 	// collapse dashes
 
 	return str;
-}; 
+}
 
 /**
  Converts degrees to radians.
  @param {Number} degrees The numer of degrees.
  @return The converted number of radians.
  */
-function DEGREES_TO_RADIANS(degrees) {
+function degreesToRadians(degrees) {
 	return (Number(degrees) / 180.0 * Math.PI);
-};
+}
 
 /*
  *	Public API's
@@ -171,5 +171,5 @@ exports.isIOS8OrGreater = isIOS8OrGreater;
 exports.isIOS9OrGreater = isIOS9OrGreater;
 exports.isIOSXOrGreater = isIOSXOrGreater;
 exports.isiOSGreaterOrEqualTo = isiOSGreaterOrEqualTo;
-exports.DEGREES_TO_RADIANS = DEGREES_TO_RADIANS;
+exports.degreesToRadians = degreesToRadians;
 exports.slugify = slugify;
