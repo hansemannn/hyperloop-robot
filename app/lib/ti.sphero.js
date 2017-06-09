@@ -4,14 +4,16 @@
 
 var RKRobotDiscoveryAgent = require("RobotKit/RKRobotDiscoveryAgent"),
     RKConvenienceRobot = require("RobotKit/RKConvenienceRobot"),
-    RKRobotNotification = require("RobotKit/RKRobotNotification"),
-    RKRobotConnecting = RKRobotNotification.RKRobotConnecting,
-    RKRobotConnected = RKRobotNotification.RKRobotConnected,
-    RKRobotOnline = RKRobotNotification.RKRobotOnline,
-    RKRobotOffline = RKRobotNotification.RKRobotOffline,
-    RKRobotDisconnected = RKRobotNotification.RKRobotDisconnected,
-    RKRobotFailedConnect = RKRobotNotification.RKRobotFailedConnect,
-    Robot = require("robot");
+  	RKRobotChangedStateNotification = require('RobotKit/RKRobotChangedStateNotification'),
+  	RKRobotLE = require('RobotKit/RKRobotLE'),
+  	RobotKit = require('RobotKit'),
+    RKRobotConnecting = RobotKit.RKRobotConnecting,
+    RKRobotConnected = RobotKit.RKRobotConnected,
+    RKRobotOnline = RobotKit.RKRobotOnline,
+    RKRobotOffline = RobotKit.RKRobotOffline,
+    RKRobotDisconnected = RobotKit.RKRobotDisconnected,
+    RKRobotFailedConnect = RobotKit.RKRobotFailedConnect,
+    Robot = require("./robot");
 
 // -- Private API's
 
@@ -70,6 +72,8 @@ var CONNECTION_STATUS_FAILED_CONNECT = RKRobotFailedConnect;
 
         var RKSubclassInstance = new RKSubclass();
         RKRobotDiscoveryAgent.sharedAgent().addNotificationObserverSelector(RKSubclassInstance, "onConnectionChange");
+        // TODO: Without this the notifications end up in Nirvana, why?
+        exports.subclass = RKSubclassInstance;
     }
 })();
 
@@ -79,23 +83,24 @@ var CONNECTION_STATUS_FAILED_CONNECT = RKRobotFailedConnect;
  * @param {NSNotification} notification The notification.
  */
 function handleRobotStateChangeNotification(notification) {
-    Ti.API.info("Received state notification: ", notification.type);
-
-    switch (n.type) {
-    case RKRobotConnecting:
-        Ti.API.info("Connecting to robot (" + notification.robot.name + ")");
-    break;
-    case RKRobotOnline:
-        Ti.API.info("Connected to robot (" + notification.robot.name + ")");
-        break;
-    case RKRobotDisconnected:
-        Ti.API.info("Disconnected from robot (" + notification.robot.name + ")");
-        break;
-    default:
-        break;
+	Ti.API.info("Received state notification: ", notification);
+	switch (notification.type) {
+		case RKRobotConnecting:
+			Ti.API.info("Connecting to robot");
+			break;
+		case RKRobotOnline:
+			var robot = RKConvenienceRobot.cast(RKConvenienceRobot.convenienceWithRobot(notification.robot));
+			Ti.API.info("Robot is online (" + robot.name() + ")");
+			break;
+		case RKRobotDisconnected:
+			Ti.API.info("Disconnected from robot");
+			break;
+		default:
+			Ti.API.warn('Unhandled state change: ' + notification.type);
+			break;
     }
 
-    fireEvent(notification);
+	fireEvent(notification);
 }
 
 // -- Utilities
@@ -127,7 +132,7 @@ function fireEvent(notification) {
             event.cb({
                 success: notification.type != RKRobotFailedConnect,
                 status: notification.type,
-                robot: new Robot(RKConvenienceRobot.convenienceWithRobot(notification.robot))
+                robot: new Robot(RKConvenienceRobot.cast(RKConvenienceRobot.convenienceWithRobot(notification.robot)))
             });
         }
     });
@@ -139,13 +144,14 @@ function fireEvent(notification) {
  * Starts a new discovery and triggers a `connectionchange` event.
  */
 exports.startDiscovery = function() {
+	log("info", "Start discovery ...");
     if (isSimulator) {
-        log("info", "Start discovery ...");
         setTimeout(function() {
             fireEvent({});
         },1000);
     } else {
-        RKRobotDiscoveryAgent.sharedAgent().startDiscovery();
+    	var error = null;
+        RKRobotDiscoveryAgent.startDiscovery();
     }
 };
 

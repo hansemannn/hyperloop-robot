@@ -34,10 +34,6 @@ function handleDiscovery(e) {
         setTimeout(function() {
             createRobot(e.robot);
         }, 500);
-    } else {
-        alert("nicht gefunden: "+e.status);
-        // hideLoader();
-        // $.alert.show();
     }
 }
 

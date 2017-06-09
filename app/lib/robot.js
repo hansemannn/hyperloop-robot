@@ -1,5 +1,7 @@
 "use strict";
 
+var RKRobotLE = require('RobotKit/RKRobotLE');
+
 var isSimulator = Ti.App.getDeployType() == "development";
 
 /**
@@ -19,7 +21,7 @@ Robot.prototype.startDrivingWithHeadingAndVelocity = function(heading, velocity)
     if (isSimulator) {
         Ti.API.warn("Start driving with heading = " + heading + " and velocity = " + velocity);
     } else {
-        this.robot.startDrivingWithHeadingAndVelocity(heading, velocity);
+        this.robot.driveWithHeadingAndVelocity(heading, velocity);
     }
 };
 
@@ -30,7 +32,7 @@ Robot.prototype.stopDriving = function() {
     if (isSimulator) {
         Ti.API.warn("Stop driving");
     } else {
-        this.robot.stopDriving();
+        this.robot.stop();
     }
 };
 
@@ -39,25 +41,33 @@ Robot.prototype.stopDriving = function() {
  * @param {UIColor} color The desired LED color.
  */
 Robot.prototype.setLEDColor = function(color) {
-    
+
     if (isSimulator) {
         Ti.API.warn("Set LED Color = " + color);
         return;
     }
-    
-    var nativeColor = color.CGColor();
 
-    if (CGColorGetNumberOfComponents(nativeColor) == 4) {
+    var nativeColor = color.CGColor;
+
+    // GoreGraphics stuff is broken, hack around it for now
+    var components = color.toString().split(' ').slice(1);
+    var red = components[0];
+    var green = components[1];
+    var blue = components[2];
+    this.robot.setLEDWithRedGreenBlue(red, green, blue);
+
+    /*
+    if (CGColorGetNumberOfComponents(nativeColor) === 4) {
         var components = CGColorGetComponents(nativeColor);
         var red = components[0];
         var green = components[1];
         var blue = components[2];
         var alpha = components[3];
-
         this.robot.setLEDWithRedGreenBlue(red, green, blue);
     } else {
         Ti.API.error("Invalid color supplied:" + color);
     }
+    */
 };
 
 /**
@@ -77,14 +87,14 @@ Robot.prototype.resetHeading = function() {
 
 /**
  * Disconnects the robot form the current application context
- * Note: This will trigger a new `connectionchange` event. 
+ * Note: This will trigger a new `connectionchange` event.
  */
 Robot.prototype.disconnect = function() {
     if (isSimulator) {
         Ti.API.warn("Disconnect robot");
     } else {
         this.robot.disconnect();
-    }   
+    }
 };
 
 /**
@@ -95,7 +105,7 @@ Robot.prototype.getName = function() {
     if (isSimulator) {
         return "Sphero Test";
     } else {
-        return this.robot.name;
+        return this.robot.name();
     }
 }
 
@@ -106,7 +116,7 @@ Robot.prototype.getIdentifier = function() {
     if (isSimulator) {
         return "sphero-test-device";
     } else {
-        return this.robot.identifier;
+        return RKRobotLE.cast(this.robot.robot).identifier();
     }
 }
 
@@ -118,7 +128,7 @@ Robot.prototype.getSerialNumber = function() {
     if (isSimulator) {
         return "4815-1623-42";
     } else {
-        return this.robot.serialNumber;
+        return RKRobotLE.cast(this.robot.robot).serialNumber();
     }
 }
 

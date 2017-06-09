@@ -1,5 +1,5 @@
 /* global ENV_PROD */
-var WebColor = require("webcolor"),
+var WebColor = require('./webcolor'),
     TiApp = require('Titanium/TiApp'),
     UIDevice = require("UIKit/UIDevice"),
     UIForceTouchCapabilityAvailable = require("UIKit").UIForceTouchCapabilityAvailable,
