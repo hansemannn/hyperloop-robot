@@ -14,8 +14,12 @@ module.exports = {
 				 * included here to further customize the xcode build
 				 */
 				flags: {
-					FRAMEWORK_SEARCH_PATHS: '$(inherited) ../../src'
-				}
+					FRAMEWORK_SEARCH_PATHS: '$(inherited) ../../src',
+					OTHER_LDFLAGS: '-ObjC -lc++'
+				},
+				frameworks: [
+					'RobotKit'
+				]
 			},
 			/**
 			 * optionally, you can bring in third-party or first-party libraries,
