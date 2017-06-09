@@ -10,7 +10,7 @@ var devices,
 	devices = Alloy.Collections.instance("device");
 	moment = require("alloy/moment");
     isSearching = false;
-    
+
     TiSphero = require("ti.sphero");
 
 	// TODO: Think about start process to update the known device-status on start
@@ -76,7 +76,6 @@ function openSettings() {
 function deleteDevice(e) {
 	var model = devices.get(e.itemId);
 	model.destroy();
-	delete model;
 
 	devices.fetch();
 
