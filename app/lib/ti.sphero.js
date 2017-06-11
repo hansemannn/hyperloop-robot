@@ -2,23 +2,23 @@
 
 // -- FRAMEWORKS
 
-var RKRobotDiscoveryAgent = require("RobotKit/RKRobotDiscoveryAgent"),
-    RKConvenienceRobot = require("RobotKit/RKConvenienceRobot"),
-  	RKRobotChangedStateNotification = require('RobotKit/RKRobotChangedStateNotification'),
-  	RKRobotLE = require('RobotKit/RKRobotLE'),
-  	RobotKit = require('RobotKit'),
+var RKRobotDiscoveryAgent = require('RobotKit/RKRobotDiscoveryAgent'),
+    RKConvenienceRobot = require('RobotKit/RKConvenienceRobot'),
+    RKRobotChangedStateNotification = require('RobotKit/RKRobotChangedStateNotification'),
+    RKRobotLE = require('RobotKit/RKRobotLE'),
+    RobotKit = require('RobotKit'),
     RKRobotConnecting = RobotKit.RKRobotConnecting,
     RKRobotConnected = RobotKit.RKRobotConnected,
     RKRobotOnline = RobotKit.RKRobotOnline,
     RKRobotOffline = RobotKit.RKRobotOffline,
     RKRobotDisconnected = RobotKit.RKRobotDisconnected,
     RKRobotFailedConnect = RobotKit.RKRobotFailedConnect,
-    Robot = require("./robot");
+    Robot = require('./robot');
 
 // -- Private API's
 
 var events = [];
-var isSimulator = Ti.App.getDeployType() == "development";
+var isSimulator = Ti.App.getDeployType() == 'development';
 
 /**
  * Robot connection process has started.
@@ -57,22 +57,20 @@ var CONNECTION_STATUS_FAILED_CONNECT = RKRobotFailedConnect;
  */
 (function constructor() {
     if (isSimulator) {
-        log("info", "Initializing module ...");
+        log('info', 'Initializing module ...');
     } else {
-        var RKSubclass = Hyperloop.defineClass("RKSubclass", "NSObject");
-
+        var RKSubclass = Hyperloop.defineClass('RKSubclass', 'NSObject');
         RKSubclass.addMethod({
-        	selector: 'onConnectionChange:',
-        	instance: true,
-        	arguments: ['NSNotification'],
-        	callback: function (notification) {
-        		handleRobotStateChangeNotification(notification);
-        	}
+            selector: 'onConnectionChange:',
+            instance: true,
+            arguments: ['NSNotification'],
+            callback: function(notification) {
+                handleRobotStateChangeNotification(notification);
+            }
         });
-
         var RKSubclassInstance = new RKSubclass();
-        RKRobotDiscoveryAgent.sharedAgent().addNotificationObserverSelector(RKSubclassInstance, "onConnectionChange");
-        // TODO: Without this the notifications end up in Nirvana, why?
+        RKRobotDiscoveryAgent.sharedAgent().addNotificationObserverSelector(RKSubclassInstance, 'onConnectionChange');
+        // FIXME: Without this the notifications end up in Nirvana, why?
         exports.subclass = RKSubclassInstance;
     }
 })();
@@ -83,24 +81,24 @@ var CONNECTION_STATUS_FAILED_CONNECT = RKRobotFailedConnect;
  * @param {NSNotification} notification The notification.
  */
 function handleRobotStateChangeNotification(notification) {
-	Ti.API.info("Received state notification: ", notification);
-	switch (notification.type) {
-		case RKRobotConnecting:
-			Ti.API.info("Connecting to robot");
-			break;
-		case RKRobotOnline:
-			var robot = RKConvenienceRobot.cast(RKConvenienceRobot.convenienceWithRobot(notification.robot));
-			Ti.API.info("Robot is online (" + robot.name() + ")");
-			break;
-		case RKRobotDisconnected:
-			Ti.API.info("Disconnected from robot");
-			break;
-		default:
-			Ti.API.warn('Unhandled state change: ' + notification.type);
-			break;
-    }
+    Ti.API.info('Received state notification: ', notification);
 
-	fireEvent(notification);
+    switch (notification.type) {
+        case RKRobotConnecting:
+            Ti.API.info('Connecting to robot ...');
+            break;
+        case RKRobotOnline:
+            var robot = RKConvenienceRobot.cast(RKConvenienceRobot.convenienceWithRobot(notification.robot));
+            Ti.API.info('Robot is online (' + robot.name() + ')');
+            break;
+        case RKRobotDisconnected:
+            Ti.API.info('Disconnected from robot');
+            break;
+        default:
+            Ti.API.warn('Unhandled state change: ' + notification.type);
+            break;
+    }
+    fireEvent(notification);
 }
 
 // -- Utilities
@@ -120,7 +118,7 @@ function log(level, message) {
  */
 function fireEvent(notification) {
     _.each(_.where(events, {
-        name: "connectionchange"
+        name: 'connectionchange'
     }), function(event) {
         if (isSimulator) {
             event.cb({
@@ -144,13 +142,14 @@ function fireEvent(notification) {
  * Starts a new discovery and triggers a `connectionchange` event.
  */
 exports.startDiscovery = function() {
-	log("info", "Start discovery ...");
+    log('info', 'Start discovery ...');
+
     if (isSimulator) {
         setTimeout(function() {
             fireEvent({});
-        },1000);
+        }, 1000);
     } else {
-    	var error = null;
+        var error = null;
         RKRobotDiscoveryAgent.startDiscovery();
     }
 };
@@ -160,7 +159,7 @@ exports.startDiscovery = function() {
  */
 exports.stopDiscovery = function() {
     if (isSimulator) {
-        log("info", "Stop discovery ...");
+        log('info', 'Stop discovery ...');
     } else {
         RKRobotDiscoveryAgent.sharedAgent().stopDiscovery();
     }
@@ -183,7 +182,7 @@ exports.isDiscovering = function() {
  */
 exports.disconnect = function() {
     if (isSimulator) {
-        log("info", "Disconnect ...");
+        log('info', 'Disconnecting ...');
     } else {
         RKRobotDiscoveryAgent.sharedAgent().disconnect();
     }
@@ -194,7 +193,7 @@ exports.disconnect = function() {
  */
 exports.disconnectAll = function() {
     if (isSimulator) {
-        log("info", "Disconnect all ...");
+        log('info', 'Disconnecting all devices ...');
     } else {
         RKRobotDiscoveryAgent.sharedAgent().disconnectAll();
     }
@@ -206,7 +205,6 @@ exports.disconnectAll = function() {
  * @param {Callback} _name The event callback.
  */
 exports.addEventListener = function(_name, _cb) {
-    log("info", "Adding event listener = " + _name);
     events.push({
         name: _name,
         cb: _cb
@@ -219,14 +217,12 @@ exports.addEventListener = function(_name, _cb) {
  * @param {Callback} _name The event callback.
  */
 exports.removeEventListener = function(_name, _cb) {
-    log("info", "Removing event listener = " + _name);
     events = _.reject(events, function(event) {
         return event.name === _name;
     });
 };
 
 // -- Public constants
-
 exports.CONNECTION_STATUS_CONNECTING = CONNECTION_STATUS_CONNECTING;
 exports.CONNECTION_STATUS_CONNECTED = CONNECTION_STATUS_CONNECTED;
 exports.CONNECTION_STATUS_ONLINE = CONNECTION_STATUS_ONLINE;
